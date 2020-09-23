@@ -2,8 +2,8 @@ import numpy as np
 import reader as r
 
 class trainer:
-    def __init__(self, widow_size, path):
-        self.result_array = r.Reader(widow_size, path);
+    def __init__(self, widow_size, paths):
+        self.result_array = r.Reader(widow_size, paths);
 
     def prod_scalaire(self):
         pass
