@@ -4,7 +4,7 @@ import re
 
 class Reader:
     def __init__(self, widow_size, encoding, paths):
-        self.widow_size = int(widow_size/2)
+        self.widow_size = int(widow_size / 2)
         self.encoding = encoding
         self.paths = paths
         self.word_index = dict()
@@ -33,17 +33,15 @@ class Reader:
         for text in self.text_list:
             for word in self.word_index.keys():
                 regex = '((?:[a-zA-ZÀ-ÿ]*[.!?,\'\";:\s]*){' + str(self.widow_size) + \
-                        '})[.!?,\'\";:\s]*' + word +'[.!?,\'\";:\s]*((?:[a-zA-ZÀ-ÿ]*[.!?,\'\";:\s]*){'+\
-                        str(self.widow_size) +'})'
-                match_result = re.findall(regex,text)
+                        '})[.!?,\'\";:\s]*' + word + '[.!?,\'\";:\s]*((?:[a-zA-ZÀ-ÿ]*[.!?,\'\";:\s]*){' + \
+                        str(self.widow_size) + '})'
+                match_result = re.findall(regex, text)
                 if match_result:
                     for result in match_result:
                         for result_group in result:
                             for result_word in filter(None, re.split('[\-.,\'\";:«»!?\s]', result_group)):
                                 result_array[self.word_index.get(word)][self.word_index.get(result_word)] += 1
         return result_array
-
-
 
 
 if __name__ == '__main__':
