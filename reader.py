@@ -8,23 +8,26 @@ class Reader:
         self.encoding = encoding
         self.paths = paths
         self.word_index = dict()
+        self.index_to_word = dict()
         self.full_text = str()
         self.read()
         self.index()
         self.result_array = self.build_array()
         print('fini')
 
+
     def read(self):
         for path in self.paths:
             f = open(path, 'r', encoding=self.encoding)
-            self.full_text + f.read()
-        self.full_text = filter(None, re.split('[\-.,\'\";:«»!?\s]', self.full_text))
+            self.full_text += f.read()
+        self.full_text = list(filter(None, re.split('[\-.,\'\";:«»!?\s]', self.full_text)))
 
     def index(self):
         current_index = 0
         for word in self.full_text:
             if word not in self.word_index.keys():
-                self.word_index[word] = current_index
+                self.word_to_index[word] = current_index
+                self.index_to_word[current_index] = word
                 current_index += 1
 
     def build_array(self):
