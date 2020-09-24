@@ -18,10 +18,11 @@ class Reader:
         for path in self.paths:
             f = open(path, 'r', encoding=self.encoding)
             self.full_text + f.read()
+        self.full_text = filter(None, re.split('[\-.,\'\";:«»!?\s]', self.full_text))
 
     def index(self):
         current_index = 0
-        for word in filter(None, re.split('[\-.,\'\";:«»!?\s]', self.full_text)):
+        for word in self.full_text:
             if word not in self.word_index.keys():
                 self.word_index[word] = current_index
                 current_index += 1
