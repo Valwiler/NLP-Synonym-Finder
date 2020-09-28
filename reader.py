@@ -3,8 +3,8 @@ import re
 
 
 class Reader:
-    def __init__(self, widow_size, encoding, paths):
-        self.widow_size = int(widow_size / 2)
+    def __init__(self, window_size, encoding, paths):
+        self.window_size = int(window_size / 2)
         self.encoding = encoding
         self.paths = paths
         self.word_to_index = dict()
