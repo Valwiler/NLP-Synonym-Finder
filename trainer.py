@@ -3,7 +3,7 @@ import reader as r
 
 class trainer:
     def __init__(self, widow_size, paths):
-        self.result_array = r.Reader(widow_size, paths);
+        self.reader = r.Reader(widow_size, paths);
 
     def prod_scalaire(self):
         pass
