@@ -17,6 +17,7 @@ class Reader:
         t0 = time.time()
         self.result_array = self.build_array()
         print(time.time() - t0)
+        print(self.result_array)
 
     def read(self):
         for path in self.paths:
@@ -79,43 +80,57 @@ class Reader:
     # def add_word_occurence_to_coocurence_array(self, coocurence_array, current_word, coocurent_words):
     #     for word in coocurent_words :
     #         coocurence_array[self.word_to_index.get(current_word)][self.word_to_index.get(word)] += 1
-
+    #
+    #
+    # def build_array(self):
+    #     word_count = len(self.word_to_index.keys())
+    #     maximum = len(self.full_text)
+    #     current_word = 0
+    #     range_left = current_word - self.window_size
+    #     range_right = current_word + self.window_size
+    #     occurrence_array = np.zeros((word_count, word_count), dtype=int)
+    #     for word in self.full_text:
+    #        co_ocurent_words = self.slice_coocurent_words(range_left, current_word) \
+    #            if self.in_range_left(range_left) \
+    #            else self.slice_coocurent_words( 0, current_word)
+    #        co_ocurent_words += self.slice_coocurent_words(current_word + 1, range_right + 1) \
+    #             if self.in_range_right(range_right, maximum) \
+    #             else self.slice_coocurent_words(current_word + 1, maximum)
+    #        self.add_word_occurence_to_coocurence_array(occurrence_array, word, co_ocurent_words)
+    #        current_word += 1
+    #        range_left += 1
+    #        range_right += 1
+    #     return occurrence_array
 
     def build_array(self):
         word_count = len(self.word_to_index.keys())
         maximum = len(self.full_text)
-        current_word = 0
-        range_left = current_word - self.window_size
-        range_right = current_word + self.window_size
         occurrence_array = np.zeros((word_count, word_count), dtype=int)
-        for word in self.full_text:
-           co_ocurent_words = self.slice_coocurent_words(range_left, current_word) \
-               if self.in_range_left(range_left) \
-               else self.slice_coocurent_words( 0, current_word)
-           co_ocurent_words += self.slice_coocurent_words(current_word + 1, range_right + 1) \
-                if self.in_range_right(range_right, maximum) \
-                else self.slice_coocurent_words(current_word + 1, maximum)
-           self.add_word_occurence_to_coocurence_array(occurrence_array, word, co_ocurent_words)
-           current_word += 1
-           range_left += 1
-           range_right += 1
+        for word_ind in range(self.window_size):
+            self.add_word_occurence_to_coocurence_array(occurrence_array, self.full_text[word_ind],
+                                                        self.slice_coocurent_words(0, word_ind,
+                                                                                   word_ind + self.window_size))
+        for word_ind in range(self.window_size, maximum - self.window_size):
+            self.add_word_occurence_to_coocurence_array(occurrence_array, self.full_text[word_ind],
+                                                        self.slice_coocurent_words(word_ind-self.window_size, word_ind,
+                                                                                   word_ind + self.window_size))
+        for word_ind in range(maximum - self.window_size, maximum):
+            self.add_word_occurence_to_coocurence_array(occurrence_array, self.full_text[word_ind],
+                                                        self.slice_coocurent_words(word_ind - self.window_size,
+                                                                                   word_ind,
+                                                                                   maximum))
         return occurrence_array
 
-    def in_range_left(self, range_left):
-        return range_left >= 0
-
-    def in_range_right(self, range_right, maximum):
-        return range_right < maximum
-
-    def slice_coocurent_words(self, begining, limit):
-        return self.full_text[begining:limit]
+    def slice_coocurent_words(self, begining, middle,  end):
+        return self.full_text[begining:middle] + self.full_text[middle+1:end+1]
 
     def add_word_occurence_to_coocurence_array(self, occurrence_array, current_word, coocurent_words):
-        for word in coocurent_words :
+        for word in coocurent_words:
             occurrence_array[self.word_to_index.get(current_word)][self.word_to_index.get(word)] += 1
 
 
 
 if __name__ == '__main__':
-    Reader(8, 'utf-8', ['LesTroisMousquetairesUTF8.txt', 'LeVentreDeParisUTF8.txt', 'GerminalUTF8.txt'])
+
+    Reader(4, 'utf-8', ['LesTroisMousquetairesUTF8.txt', 'LeVentreDeParisUTF8.txt', 'GerminalUTF8.txt'])
     #Reader(4, 'utf-8', ['coucou.txt'])
