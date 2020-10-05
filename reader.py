@@ -1,11 +1,15 @@
+from numpy.core.defchararray import lower
+
+import chrono
 import numpy as np
 import re
-import time
 
 
 class Reader:
-    def __init__(self, window_size, encoding, paths):
-        self.window_size = int(window_size / 2)
+    def __init__(self, widow_size, encoding, paths):
+        self.chrono = chrono.Chrono()
+        self.chrono.start()
+        self.window_size = int(widow_size / 2)
         self.encoding = encoding
         self.paths = paths
         self.word_to_index = dict()
@@ -13,47 +17,70 @@ class Reader:
         self.full_text = str()
         self.read()
         self.index()
-        t0 = time.time()
         self.result_array = self.build_array()
-        print('fini en ' + str(time.time() - t0))
+        self.chrono.end()
+        self.chrono.log(" all process : ")
 
     def read(self):
+        #self.chrono.start()
         for path in self.paths:
             f = open(path, 'r', encoding=self.encoding)
             self.full_text += f.read()
-        self.full_text = re.findall('(\w+|[!?])', self.full_text)
+        self.full_text = lower(re.findall('(\w+|[!?])', self.full_text))
+        #self.chrono.end()
+        #self.chrono.log("read time : ")
 
     def index(self):
+        #self.chrono.start()
         current_index = 0
         for word in self.full_text:
             if word not in self.word_to_index.keys():
                 self.word_to_index[word] = current_index
                 self.index_to_word[current_index] = word
                 current_index += 1
-
-    def get_context(self, wordIndex, size_of_corpus):
-        contexte = [self.full_text[x] for x in range(max(0, wordIndex - self.window_size),
-                                                     max(wordIndex + 1,
-                                                     min(wordIndex + self.window_size + 1, size_of_corpus )))
-                    if wordIndex != x]
-        return contexte
+        #self.chrono.end()
+        #self.chrono.log("Indexing time : ")
 
     def build_array(self):
-        size_of_corpus = len(self.index_to_word)
-        length_fulltext = len(self.full_text)
-        M = np.zeros((size_of_corpus, size_of_corpus), dtype=int)
-        for i, word in enumerate(self.full_text):
-            mot_contexte = self.get_context(i, length_fulltext)
-            for words in mot_contexte:
-                j = self.word_to_index[words]
-                M[self.word_to_index[word]][j] += 1
+
+        full_text_index = self.transform_words_intoo_indexs()
+
+        self.chrono.start()
+        #co_occurence_word_list = [self.full_text[i + 1: i + self.window_size + 1] for i, word in
+        #                         enumerate(self.full_text)]
+
+        co_occurence_word_list = [full_text_index[i + 1: i + self.window_size + 1] for i, word in enumerate(full_text_index)]
+
+        co_occurence_matrix = self.initialise_co_occurence_matrix()
+        current_word = 0
+        for words in co_occurence_word_list:
+            for adjacent_word in words:
+                current_word_ind = self.word_to_index.get(self.full_text[current_word])
+#               current_adjacent_word_ind = self.word_to_index.get(adjacent_word)
+                co_occurence_matrix[current_word_ind][adjacent_word] += 1
+                co_occurence_matrix[adjacent_word][current_word_ind] += 1
+            current_word += 1
+        #self.chrono.end()
+        #self.chrono.log("co_occurence time : ")
+        return co_occurence_matrix
 
 
+    def transform_words_intoo_indexs(self):
+        #self.chrono.start()
+        full_text_index = [self.word_to_index.get(word) for word in self.full_text]
+       # self.chrono.end()
+        #self.chrono.log("full text transformation to indexs time : ")
+        return full_text_index
 
-        print(M)
 
-        return M
+    def initialise_co_occurence_matrix(self):
+        wordcount = len(self.word_to_index.keys())
+        return np.zeros((wordcount, wordcount), dtype=int)
+
+    def find_index(self, word):
+        return self.word_to_index(word)
 
 
 if __name__ == '__main__':
-    Reader(5, 'utf-8', ['LesTroisMousquetairesUTF8.txt'])
+    Reader(5, 'utf-8', ['LesTroisMousquetairesUTF8.txt', 'LeVentreDeParisUTF8.txt', 'GerminalUTF8.txt'])
+    # Reader(4, 'utf-8', ['coucou.txt'])
