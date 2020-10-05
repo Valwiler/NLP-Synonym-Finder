@@ -23,3 +23,63 @@
     def add_word_occurence_to_coocurence_array(self, occurrence_array, current_word, coocurent_words):
         for word in coocurent_words:
             occurrence_array[self.word_to_index.get(current_word)][self.word_to_index.get(word)] += 1
+
+
+    # def build_array(self):
+    #     self.chrono.start()
+    #     word_count = len(self.word_to_index.keys())
+    #     maximum = len(self.full_text)
+    #     occurrence_array = np.zeros((word_count, word_count), dtype=int)
+    #     for word_ind in range(self.window_size):
+    #         self.add_adjacent_words_to_coocurence_array(occurrence_array, self.full_text[word_ind],
+    #                                                     self.slice_coocurent_words(0, word_ind,
+    #                                                                                word_ind + self.window_size))
+    #     for word_ind in range(self.window_size, maximum - self.window_size):
+    #         self.add_adjacent_words_to_coocurence_array(occurrence_array, self.full_text[word_ind],
+    #                                                     self.slice_coocurent_words(word_ind-self.window_size, word_ind,
+    #                                                                                word_ind + self.window_size))
+    #     for word_ind in range(maximum - self.window_size, maximum):
+    #         self.add_adjacent_words_to_coocurence_array(occurrence_array, self.full_text[word_ind],
+    #
+    #                                                     self.slice_coocurent_words(word_ind - self.window_size,
+    #                                                                                word_ind,
+    #                                                                                maximum))
+    #     self.chrono.end()
+    #     self.chrono.log("occurence array making time : ")
+    #     return occurrence_array
+    #
+    # def slice_coocurent_words(self, begining, middle,  end):
+    #     return self.full_text[begining:middle] + self.full_text[middle+1:end+1]
+    #
+    # def add_adjacent_words_to_coocurence_array(self, occurrence_array, current_word, coocurent_words):
+    #     for word in coocurent_words:
+    #         occurrence_array[self.word_to_index.get(current_word)][self.word_to_index.get(word)] += 1
+
+    # def build_array(self):
+    #     self.chrono.start()
+    #     maximum = len(self.full_text)
+    #     co_occurence_matrix = self.initialise_co_occurence_matrix()
+    #     current_word_ind = 0;
+    #     for word in self.full_text:
+    #         self.add_adjacent_words_to_co_ocurence_array(co_occurence_matrix, word,
+    #                                                      self.slice_adjacent_words(current_word_ind,
+    #                                                                                current_word_ind + self.window_size
+    #                                                                                if current_word_ind + self.window_size < maximum
+    #                                                                                else maximum))
+    #         current_word_ind += 1
+    #     self.chrono.end()
+    #     self.chrono.log("co_occurence time : ")
+    #     return co_occurence_matrix
+    #
+    # def slice_adjacent_words(self, begining, end):
+    #     return self.full_text[begining + 1:end + 1]
+    #
+    # def initialise_co_occurence_matrix(self):
+    #     wordcount = len(self.word_to_index.keys())
+    #     return np.zeros((wordcount, wordcount), dtype=int)
+    #
+    # def add_adjacent_words_to_co_ocurence_array(self, co_occurence_matrix, current_word, coocurent_words):
+    #     for adjacent_word in coocurent_words:
+    #         co_occurence_matrix[self.word_to_index.get(current_word)][self.word_to_index.get(adjacent_word)] += 1
+    #         co_occurence_matrix[self.word_to_index.get(adjacent_word)][self.word_to_index.get(current_word)] += 1
+
