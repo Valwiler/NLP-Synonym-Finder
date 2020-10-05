@@ -28,7 +28,6 @@ class Reader:
             self.full_text += f.read()
         self.full_text = lower(re.findall('(\w+|[!?])', self.full_text))
 
-
     def index(self):
         current_index = 0
         for word in self.full_text:
@@ -37,7 +36,6 @@ class Reader:
                 self.index_to_word[current_index] = word
                 current_index += 1
             self.indexed_text.append(self.word_to_index.get(word))
-
 
     def build_array(self):
         co_occurence_word_list = [self.indexed_text[i + 1: i + self.window_size + 1] for i, word in
@@ -54,7 +52,6 @@ class Reader:
             current_word += 1
         return co_occurence_matrix
 
-
     def initialise_co_occurence_matrix(self):
         wordcount = len(self.word_to_index.keys())
         return np.zeros((wordcount, wordcount), dtype=int)
@@ -65,4 +62,3 @@ class Reader:
 
 if __name__ == '__main__':
     Reader(5, 'utf-8', ['LesTroisMousquetairesUTF8.txt', 'LeVentreDeParisUTF8.txt', 'GerminalUTF8.txt'])
-
