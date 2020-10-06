@@ -23,8 +23,8 @@ def main(window, encoding, paths):
     chrono.end()
     chrono.log('text processing ok : ')
     chrono.start()
-    #trainer = t.Trainer("bras", text_processor.result_array, text_processor.index_to_word, text_processor.word_to_index)
-    #trainer.training()
+    trainer = t.Trainer("bras", text_processor.result_array, text_processor.index_to_word, text_processor.word_to_index)
+    trainer.training()
     chrono.end()
     chrono.log('training ok : ')
 
