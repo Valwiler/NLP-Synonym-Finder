@@ -28,18 +28,28 @@ class Processor:
             current_word += 1
 
     def build_array(self):
+        wordcount = len(self.word_to_index.keys())
         co_occurence_word_list = [self.indexed_text[i + 1: i + self.window_size + 1] for i, word in
                                   enumerate(self.indexed_text)]
-        co_occurence_matrix = self.initialise_co_occurence_matrix()
-        generator = self.pos_generator(co_occurence_word_list)
-        for elements in generator:
-            co_occurence_matrix[elements[0], elements[1]] += 1
-            co_occurence_matrix[elements[1], elements[0]] += 1
+        co_occurence_matrix = np.zeros((wordcount * wordcount), dtype=int)
+        # # generator = (((i, element) for element in words) for i, words in enumerate(co_occurence_word_list))
+        # generator = self.pos_generator(co_occurence_word_list)
+        # # generator = self.pos_generator(co_occurence_word_list)
+        # for elements in generator:
+        #     co_occurence_matrix[elements[0] + (elements[1] * wordcount)] += 1
+        #     co_occurence_matrix[elements[1] + (elements[0] * wordcount)] += 1
+
+        for i, word in enumerate(self.indexed_text):
+            for adjacent_word in co_occurence_word_list[i]:
+                co_occurence_matrix[adjacent_word + (word*wordcount)] += 1
+                co_occurence_matrix[word + (adjacent_word*wordcount)] += 1
+        co_occurence_matrix = co_occurence_matrix.reshape((wordcount, wordcount))
+        print(co_occurence_matrix)
         return co_occurence_matrix
 
     def initialise_co_occurence_matrix(self):
         wordcount = len(self.word_to_index.keys())
-        return np.zeros((wordcount, wordcount), dtype=int)
+        return np.zeros((wordcount*wordcount), dtype=int)
 
     def get_word_index(self, word):
         return self.word_to_index[word]

@@ -23,10 +23,12 @@ def main(window, encoding, paths):
     chrono.end()
     chrono.log('text processing ok : ')
     chrono.start()
-    trainer = t.Trainer(text_processor.result_array, text_processor.index_to_word)
+    #trainer = t.Trainer("bras", text_processor.result_array, text_processor.index_to_word, text_processor.word_to_index)
+    #trainer.training()
     chrono.end()
     chrono.log('training ok : ')
 
 
 if __name__ == '__main__':
     main(5, 'utf-8', ['LesTroisMousquetairesUTF8.txt', 'LeVentreDeParisUTF8.txt', 'GerminalUTF8.txt'])
+    #main(4, 'utf-8', ['coucou.txt'])
