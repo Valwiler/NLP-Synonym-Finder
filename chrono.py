@@ -5,16 +5,16 @@ class Chrono:
 
     def __init__(self):
         self.start_stamp = 0
-        self.end_stamp = 0
+        self.logs = list()
 
     def start(self):
         self.start_stamp = time.time()
 
     def end(self):
-        self.end_stamp = time.time()
+        self.logs.append(time.time())
+        for i,timestamp in enumerate(self.logs):
+            print("#"+str(i) + " :" + str(self.start_stamp - timestamp))
 
-    def log(self, message):
-        print(message + str(self.end_stamp - self.start_stamp))
+    def log(self):
+        self.logs.append(time.time())
 
-    def time_function(self, function, message):
-        function()
