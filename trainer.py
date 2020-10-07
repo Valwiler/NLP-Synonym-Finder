@@ -15,19 +15,16 @@ class Trainer:
     def training(self, training_type):
         target_word_index = self.word_to_index.get(self.target_word)
         target_vector = self.co_occurence_matrix[target_word_index]
+        sort_reverse = False
         if self.target_word in self.index_to_word.values():
             if training_type == 1:
                 scores = [self.prod_scalaire(row, target_vector) for row in self.co_occurence_matrix]
                 sort_reverse = True
             elif training_type == 2:
-                scores = zip([self.least_square(target_vector, row) for row in self.co_occurence_matrix],
-                            self.word_to_index.keys())
-                sort_reverse = False
+                scores = [self.least_square(target_vector, row) for row in self.co_occurence_matrix]
             elif training_type == 3:
-                scores = zip([self.city_block(target_vector, row) for row in self.co_occurence_matrix],
-                            +                        self.word_to_index.keys())
-                sort_reverse = False
-            scores = list(enumerate(scores))
+                scores = [self.city_block(target_vector, row) for row in self.co_occurence_matrix]
+            scores = enumerate(scores)
             scores = sorted(scores, key=lambda x: x[1], reverse=sort_reverse)
             results = [self.index_to_word.get(score[0]) for score in scores[:9]]
             return results
