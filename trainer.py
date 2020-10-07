@@ -10,11 +10,14 @@ class Trainer:
         self.co_occurence_matrix = self.processor.result_array
         self.index_to_word = self.processor.index_to_word
         self.word_to_index = self.processor.word_to_index
-        self.target_word = researched_word
+        self.target_word_index = self.word_to_index.get(researched_word)
+        self.stop_list = r.read( 'utf-8',['stopword.txt'], stoplist=True)
+        self.stop_list = [self.word_to_index.get(word) for word in self.stop_list if self.word_to_index.get(word)]
+        self.stop_list.append(self.target_word_index)
+
 
     def training(self, training_type):
-        target_word_index = self.word_to_index.get(self.target_word)
-        target_vector = self.co_occurence_matrix[target_word_index]
+        target_vector = self.co_occurence_matrix[self.target_word_index]
         sort_reverse = False
         if self.target_word in self.index_to_word.values():
             if training_type == 1:
@@ -26,6 +29,7 @@ class Trainer:
                 scores = [self.city_block(target_vector, row) for row in self.co_occurence_matrix]
             scores = enumerate(scores)
             scores = sorted(scores, key=lambda x: x[1], reverse=sort_reverse)
+            scores = [score for score in scores if score[0] not in self.stop_list]
             results = [self.index_to_word.get(score[0]) for score in scores[:9]]
             return results
         else:
