@@ -1,53 +1,41 @@
+from reader import Reader as r
+import processor as pr
 import numpy as np
 
 
 class Trainer:
-    def __init__(self, researched_word, co_occurence_matrix, index_to_word, word_to_index):
-        self.co_occurence_matrix = co_occurence_matrix
-        self.index_to_word = index_to_word
-        self.word_to_index = word_to_index
+    def __init__(self, researched_word, window_size, encoding, paths):
+        self.processor = pr.Processor(window_size)
+        self.processor.process_text(r.read(encoding, paths))
+        self.co_occurence_matrix = self.processor.result_array
+        self.index_to_word = self.processor.index_to_word
+        self.word_to_index = self.processor.word_to_index
         self.target_word = researched_word
-        self.researched_word_ind = word_to_index.get(researched_word)
-        print(self.researched_word_ind)
-        print(self.target_word)
 
-        self.result_matrix = ()
-        self.stop_words = ["le", "la", "les", "de", "du", "des", "l'", "d'", "ma", "me", "mon", "pour", "sur", "j'", "je", "et", "qui","au","aux","the", "et"]
-
-    def training(self, training_type=2):
+    def training(self, training_type):
         target_word_index = self.word_to_index.get(self.target_word)
         target_vector = self.co_occurence_matrix[target_word_index]
-        if training_type == 1:
-            score = zip([self.prod_scalaire(target_vector, row) for row in self.co_occurence_matrix],
-                        self.word_to_index.keys())
-        elif training_type == 2:
-            score = zip([self.least_square(target_vector, row) for row in self.co_occurence_matrix],
-                        self.word_to_index.keys())
-        elif training_type == 3:
-            score = zip([self.city_block(target_vector, row) for row in self.co_occurence_matrix],
-                        self.word_to_index.keys())
-        score = sorted(score, reverse=False, key = lambda  i: i[0])
+        sort_reverse = False
+        if self.target_word in self.index_to_word.values():
+            if training_type == 1:
+                scores = [self.prod_scalaire(target_vector, row) for row in self.co_occurence_matrix]
+                sort_reverse = True
+            elif training_type == 2:
+                scores = [self.least_square(target_vector, row) for row in self.co_occurence_matrix]
+            elif training_type == 3:
+                scores = [self.city_block(target_vector, row) for row in self.co_occurence_matrix]
+            scores = enumerate(scores)
+            scores = sorted(scores, key=lambda x: x[1], reverse=sort_reverse)
+            results = [self.index_to_word.get(score[0]) for score in scores[:9]]
+            return results
+        else:
+            print("ce mot n'existe pas dans le copus")
 
-        self.print_synonyme(score,10)
-        return score
-
-    def prod_scalaire(self, vect1, vect2):
+    def prod_scalaire(self,vect1, vect2):
         return np.sum(np.dot(vect1, vect2))
 
-    def least_square(self, vect1 ,vect2):
-        return np.linalg.norm(vect1 - vect2)
+    def least_square(self,vect1, vect2):
+        return np.square(vect1 - vect2).sum()
 
-
-    def city_block(self,vect1 , vect2):
+    def city_block(self, vect1, vect2):
         return np.sum(np.absolute(vect1 - vect2))
-
-    def print_synonyme(self, score = (), nb_synonyme = int):
-        synonyme = []
-        i = 0
-        while len(synonyme) != nb_synonyme :
-            if score[i][1] not in self.stop_words and score[i][1] != self.target_word:
-                synonyme.append(score[i])
-            i += 1
-        print(synonyme)
-
-
