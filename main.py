@@ -15,7 +15,7 @@ def main():
         paths.append(path)
 
     trainer = t.Trainer("jambe", window, encoding, paths)
-    trainer.training(3)
+    trainer.training(1)
 
 
 if __name__ == '__main__':

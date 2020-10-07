@@ -18,7 +18,7 @@ class Trainer:
         sort_reverse = False
         if self.target_word in self.index_to_word.values():
             if training_type == 1:
-                scores = [self.prod_scalaire(row, target_vector) for row in self.co_occurence_matrix]
+                scores = [self.prod_scalaire(target_vector, row) for row in self.co_occurence_matrix]
                 sort_reverse = True
             elif training_type == 2:
                 scores = [self.least_square(target_vector, row) for row in self.co_occurence_matrix]
@@ -32,7 +32,7 @@ class Trainer:
             print("ce mot n'existe pas dans le copus")
 
     def prod_scalaire(self,vect1, vect2):
-        return np.sum(np.subtract(vect1, vect2))
+        return np.sum(np.dot(vect1, vect2))
 
     def least_square(self,vect1, vect2):
         return np.square(vect1 - vect2).sum()
