@@ -17,10 +17,6 @@ def main():
     trainer = t.Trainer("jambe", window, encoding, paths)
     trainer.training(1)
 
-def parse():
-    parser = argparse.ArgumentParser("Genère une liste de ")
-
-
 
 if __name__ == '__main__':
     main()
