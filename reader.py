@@ -9,7 +9,11 @@ class Reader:
         self.paths = paths
 
     def read(self):
+
+        #self.chrono.start()
         for path in self.paths:
             f = open(path, 'r', encoding=self.encoding)
             self.full_text += f.read()
         self.full_text = lower(re.findall('(\w+|[!?])', self.full_text))
+        #self.chrono.end()
+        #self.chrono.log("read time : ")

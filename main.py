@@ -30,5 +30,5 @@ def main(window, encoding, paths):
 
 
 if __name__ == '__main__':
-    main(5, 'utf-8', ['LesTroisMousquetairesUTF8.txt', 'LeVentreDeParisUTF8.txt', 'GerminalUTF8.txt'])
+    main(8, 'utf-8', ['LesTroisMousquetairesUTF8.txt', 'LeVentreDeParisUTF8.txt', 'GerminalUTF8.txt'])
     #main(4, 'utf-8', ['coucou.txt'])
