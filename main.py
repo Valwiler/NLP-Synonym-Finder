@@ -15,7 +15,7 @@ def main():
         paths.append(path)
 
     trainer = t.Trainer("jambe", window, encoding, paths)
-    trainer.training(2)
+    trainer.training(1)
 
 def parse():
     parser = argparse.ArgumentParser("Genère une liste de ")
