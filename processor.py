@@ -4,15 +4,16 @@ import chrono as ch
 
 
 class Processor:
-    def __init__(self, widow_size, full_text):
+    def __init__(self, widow_size):
         self.chrono = ch.Chrono()
-        self.full_text = full_text
+        self.full_text = []
         self.window_size = int(widow_size / 2)
         self.word_to_index = dict()
         self.index_to_word = dict()
         self.indexed_text = list()
 
-    def process_text(self):
+    def process_text(self, full_text):
+        self.full_text = full_text
         self.index()
         self.result_array = self.build_array()
 
