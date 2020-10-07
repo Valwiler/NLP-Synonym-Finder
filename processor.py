@@ -23,18 +23,17 @@ class Processor:
 
     def build_array(self):
         wordcount = len(self.word_to_index.keys())
-        co_occurence_word_list = [self.indexed_text[i + 1: i + self.window_size + 1] for i, word in
-                                  enumerate(self.indexed_text)]
         co_occurence_matrix = np.zeros((wordcount * wordcount), dtype=int)
         for i, word in enumerate(self.indexed_text):
-            for adjacent_word in co_occurence_word_list[i]:
-                co_occurence_matrix[adjacent_word + (word*wordcount)] += 1
-                co_occurence_matrix[word + (adjacent_word*wordcount)] += 1
+            adjacent_word_list = self.indexed_text[i + 1: i + self.window_size + 1]
+            for adjacent_word in adjacent_word_list:
+                co_occurence_matrix[adjacent_word + (word * wordcount)] += 1
+                co_occurence_matrix[word + (adjacent_word * wordcount)] += 1
         co_occurence_matrix = co_occurence_matrix.reshape((wordcount, wordcount))
         return co_occurence_matrix
 
     def initialise_co_occurence_matrix(self):
-        wordcount = len(self.word_to_index.keys())
+        wordcount = len(self.index_to_word.keys())
         return np.zeros((wordcount*wordcount), dtype=int)
 
     def get_word_index(self, word):

@@ -10,6 +10,6 @@ class Reader:
 
     def read(self):
         for path in self.paths:
-            f = open(path, 'r', encoding=self.encoding)
-            self.full_text += f.read()
+            with open(path, 'r', encoding=self.encoding) as book:
+                self.full_text += book.read()
         self.full_text = lower(re.findall('(\w+|[!?])', self.full_text))
