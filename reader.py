@@ -18,3 +18,6 @@ class Reader:
         else:
             full_text = lower(re.findall('(\w+|[!?])', full_text))
         return full_text
+
+
+# def stop_list va créer la stop list

@@ -8,13 +8,13 @@ class Trainer:
         self.result_nb = result_nb
         self.processor = pr.Processor(window_size)
         self.processor.process_text(r.read(encoding, paths))
-        self.co_occurence_matrix = self.processor.result_array
-        self.index_to_word = self.processor.index_to_word
         self.word_to_index = self.processor.word_to_index
         if researched_word in self.word_to_index.keys():
             self.target_word_index = self.word_to_index.get(researched_word)
         else:
             raise Exception('Mot absent')
+        self.co_occurence_matrix = self.processor.result_array
+        self.index_to_word = self.processor.index_to_word
         self.stop_list = r.read('utf-8', ['stopword.txt'], stoplist=True)
         self.stop_list = [self.word_to_index.get(word) for word in self.stop_list if self.word_to_index.get(word)]
         self.stop_list.append(self.target_word_index)
@@ -25,11 +25,11 @@ class Trainer:
         # On crée une variable pour savoir si l'orde de tri doit être inversé
         sort_reverse = False
         # Produit Scalaire
-        if training_type == 1:
+        if training_type == 0:
             scores = [self.prod_scalaire(target_vector, row) for row in self.co_occurence_matrix]
             sort_reverse = True
         # Moindre-carré
-        elif training_type == 2:
+        elif training_type == 1:
             scores = [self.least_square(target_vector, row) for row in self.co_occurence_matrix]
         # Manhattan distance
         else:
@@ -49,11 +49,11 @@ class Trainer:
 
     @staticmethod
     def prod_scalaire(vect1, vect2):
-        return np.sum(np.dot(vect1, vect2))
+        return np.dot(vect1, vect2)
 
     @staticmethod
     def least_square(vect1, vect2):
-        return np.square(vect1 - vect2).sum()
+        return np.sum((vect1 - vect2)**2)
 
     @staticmethod
     def city_block(vect1, vect2):

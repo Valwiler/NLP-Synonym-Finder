@@ -26,7 +26,7 @@ class Processor:
         self.indexed_text = [*map(self.get_word_index, self.full_text)]
 
     def build_array(self):
-        wordcount = len(self.word_to_index.keys())
+        wordcount = len(self.word_to_index)
 
         # génération de la matrice Numpy en fonction du nombre de mots unique dans le corpus
         co_occurence_matrix = np.zeros((wordcount * wordcount), dtype=int)
