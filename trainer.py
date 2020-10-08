@@ -4,39 +4,32 @@ import numpy as np
 
 
 class Trainer:
+
     def __init__(self, researched_word, result_nb, window_size, encoding, paths):
         self.result_nb = result_nb
         self.processor = pr.Processor(window_size)
-        self.processor.process_text(r.read(encoding, paths))
+        self.processor.process_text(r.read_text(encoding, paths))
         self.word_to_index = self.processor.word_to_index
         if researched_word in self.word_to_index.keys():
             self.target_word_index = self.word_to_index.get(researched_word)
         else:
-            raise Exception('Mot absent')
+            raise ValueError('Mot absent')
         self.co_occurence_matrix = self.processor.result_array
         self.index_to_word = self.processor.index_to_word
-        self.stop_list = r.read('utf-8', ['stopword.txt'], stoplist=True)
+        self.stop_list = r.read_stoplist()
         self.stop_list = [self.word_to_index.get(word) for word in self.stop_list if self.word_to_index.get(word)]
         self.stop_list.append(self.target_word_index)
 
     def training(self, training_type):
         # On assigne le vecteur du mot recherché
         target_vector = self.co_occurence_matrix[self.target_word_index]
-        # On crée une variable pour savoir si l'orde de tri doit être inversé
-        sort_reverse = False
-        # Produit Scalaire
-        if training_type == 0:
-            scores = [self.prod_scalaire(target_vector, row) for row in self.co_occurence_matrix]
-            sort_reverse = True
-        # Moindre-carré
-        elif training_type == 1:
-            scores = [self.least_square(target_vector, row) for row in self.co_occurence_matrix]
-        # Manhattan distance
-        else:
-            scores = [self.city_block(target_vector, row) for row in self.co_occurence_matrix]
-        # Tri du score
+        training_methods = {0: self.prod_scalaire,
+                           1: self.least_square,
+                           2: self.city_block}
+        training_method = training_methods.get(training_type)
+        scores = [training_method(target_vector, row) for row in self.co_occurence_matrix]
         scores = enumerate(scores)
-        scores = sorted(scores, key=lambda x: x[1], reverse=sort_reverse)
+        scores = sorted(scores, key=lambda x: x[1], reverse=bool(training_method is self.prod_scalaire))
         top = list()
         i = 0
         # On garde seulement le nombre de synonymme recherché
