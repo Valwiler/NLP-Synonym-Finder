@@ -15,7 +15,4 @@ class Reader:
             full_text = full_text.splitlines()
         else:
             full_text = lower(re.findall('(\w+|[!?])', full_text))
-
-
-
         return full_text

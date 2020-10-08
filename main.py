@@ -1,11 +1,5 @@
 import sys
-import time
 import trainer as t
-import reader as r
-import processor as pr
-import chrono as ch
-import argparse
-from pathlib import Path
 
 def main():
     paths = []
@@ -13,9 +7,22 @@ def main():
     encoding = str(sys.argv[2])
     for path in sys.argv[3:]:
         paths.append(path)
+    while True:
+        buffer = input('Entrez un mot, le nombre de synonymes que vous voulez et la methode de calcul,\n'
+              ' i.e. produit scalaire: 0, least-squares:1, city-block:2\n\n'
+              'Tapez q pour quitter.\n')
+        if buffer is 'q':
+            quit()
+        else:
+            target_word, result_nb, method = buffer.split()
+        trainer = t.Trainer(target_word, int(result_nb), window, encoding, paths)
+        results = trainer.training(int(method))
+        print('\n')
+        for result in results:
+            print(result[0] + ' --> ' + str(result[1]))
+        print('\n')
 
-    trainer = t.Trainer("jambe", window, encoding, paths)
-    trainer.training(2)
+
 
 
 if __name__ == '__main__':
