@@ -1,6 +1,8 @@
 import sys
 import trainer as t
 
+# Loop principale du programme
+
 def main():
     paths = []
     window = int(sys.argv[1])
@@ -9,9 +11,9 @@ def main():
         paths.append(path)
     while True:
         buffer = input('Entrez un mot, le nombre de synonymes que vous voulez et la methode de calcul,\n'
-              ' i.e. produit scalaire: 0, least-squares:1, city-block:2\n\n'
-              'Tapez q pour quitter.\n')
-        if buffer is 'q':
+                       ' i.e. produit scalaire: 0, least-squares:1, city-block:2\n\n'
+                       'Tapez q pour quitter.\n')
+        if buffer == 'q':
             quit()
         else:
             target_word, result_nb, method = buffer.split()
@@ -21,8 +23,6 @@ def main():
         for result in results:
             print(result[0] + ' --> ' + str(result[1]))
         print('\n')
-
-
 
 
 if __name__ == '__main__':

@@ -1,9 +1,11 @@
 from numpy.core.defchararray import lower
-import chrono as ch
 import re
 
 
 class Reader:
+    # Méthode utilisé pour la lecture des différents fichier du corpus et
+    # de la stoplist
+
     @staticmethod
     def read(encoding, paths, **kwargs):
         full_text = str()
