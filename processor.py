@@ -25,24 +25,39 @@ class Processor:
         # convertis chacun des mots du text en sa valeur indexée pour accélérer le traitement des données
         self.indexed_text = [*map(self.get_word_index, self.full_text)]
 
+    # def build_array(self):
+    #     wordcount = len(self.word_to_index)
+    #
+    #     # génération de la matrice Numpy en fonction du nombre de mots unique dans le corpus
+    #     co_occurence_matrix = np.zeros((wordcount * wordcount), dtype=int)
+    #
+    #     for i, word in enumerate(self.indexed_text):
+    #         # on va chercher les mots dans la fenêtre de contexte de chaques mots
+    #         adjacent_word_list = self.indexed_text[i + 1: i + self.window_size + 1]
+    #         # On incrémente le poid de mots à travers le vecteur sélectionné en fonction de sa fréquence
+    #         # dans le contexte
+    #         for adjacent_word in adjacent_word_list:
+    #             co_occurence_matrix[adjacent_word + (word * wordcount)] += 1
+    #             co_occurence_matrix[word + (adjacent_word * wordcount)] += 1
+    #
+    #     co_occurence_matrix = co_occurence_matrix.reshape((wordcount, wordcount))
+    #
+    #     return co_occurence_matrix
+
     def build_array(self):
         wordcount = len(self.word_to_index)
 
-        # génération de la matrice Numpy en fonction du nombre de mots unique dans le corpus
         co_occurence_matrix = np.zeros((wordcount * wordcount), dtype=int)
 
-        for i, word in enumerate(self.indexed_text):
-            # on va chercher les mots dans la fenêtre de contexte de chaques mots
-            adjacent_word_list = self.indexed_text[i + 1: i + self.window_size + 1]
-            # On incrémente le poid de mots à travers le vecteur sélectionné en fonction de sa fréquence
-            # dans le contexte
-            for adjacent_word in adjacent_word_list:
-                co_occurence_matrix[adjacent_word + (word * wordcount)] += 1
-                co_occurence_matrix[word + (adjacent_word * wordcount)] += 1
+        coocurence_dictionarie = {}
 
-        co_occurence_matrix = co_occurence_matrix.reshape((wordcount, wordcount))
+        for word in self.indexed_text:
+            for i in range(self.window_size):
+                pass
+                 #coocurence_dictionarie.
 
         return co_occurence_matrix
+
 
     def get_word_index(self, word):
         return self.word_to_index[word]
