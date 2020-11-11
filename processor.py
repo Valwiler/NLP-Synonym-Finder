@@ -18,7 +18,7 @@ class Processor:
 
     def index(self):
         for words in self.full_text:
-            db.Data_Base.add_word(words)
+            db.Data_Base.add_word(db.Data_Base ,words)
         self.index_to_word = db.Data_Base.get_index_word()
         self.word_to_index = db.Data_Base.get_word_index()
         self.indexed_text = [*map(self.get_word_index, self.full_text)]

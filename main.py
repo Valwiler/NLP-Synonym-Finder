@@ -11,7 +11,8 @@ def main():
     paths = arguments.filesPath(arguments.getInstance())
     window = arguments.windowSize(arguments.getInstance())
     encoding = arguments.encoding(arguments.getInstance())
-    DB = db.Data_Base.create_database()
+    DB = db.Data_Base
+    DB.create_database(DB)
     while True:
         buffer = input('\nEntrez un mot, le nombre de synonymes que vous voulez et la methode de calcul.\n'
                        '( i.e. produit scalaire: 0, least-squares:1, city-block:2 )\n\n'

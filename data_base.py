@@ -11,7 +11,7 @@ CREATE_INDEXES_TABLE = 'CREATE TABLE IF NOT EXISTS vocabulary_table  (' \
                        'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
                        'word TEXT NOT NULL);'
 
-CREATE_INDEX_ON_INDEXES = 'CREATE UNIQUE INDEX vocabulary_index ON vocabulary_table(word);'
+CREATE_INDEX_ON_INDEXES = 'CREATE UNIQUE INDEX IF NOT EXISTS vocabulary_index ON vocabulary_table(word);'
 
 CREATE_COOCURENCE_TABLE = ' CREATE TABLE IF NOT EXISTS c{} (' \
                           'id_word INTEGER  NOT NULL, ' \
@@ -70,8 +70,8 @@ class Data_Base:
         return connexion
 
 
-    def create_database(self, path):
-        connection_string = CONNECTION_ARGS.format(path, 'rwc')
+    def create_database(self):
+        connection_string = CONNECTION_ARGS.format(DB_PATH, 'rwc')
         connexion = sq.connect(connection_string, uri=True)
         c = connexion.cursor()
         c.execute(CREATE_INDEXES_TABLE)
