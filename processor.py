@@ -1,6 +1,7 @@
 from collections import Counter
 import numpy as np
-
+import data_base as bd
+import data_base as db
 
 class Processor:
     def __init__(self, widow_size):
@@ -16,14 +17,18 @@ class Processor:
         self.result_array = self.build_array()
 
     def index(self):
+        for words in self.full_text:
+            db.Data_Base.add_word(words)
+        self.word_to_index = db.Data_Base.get_index_word()
+
         # initialisation du Dictionnaire permettant la conversion d'un index en mot
-        self.index_to_word = dict(enumerate(x for x in Counter(self.full_text).keys()))
-
-        # initialisation du Dictionnaire à partir de index_to_word permettant la conversion d'un mot en index
-        self.word_to_index = {v: k for k, v in self.index_to_word.items()}
-
-        # convertis chacun des mots du text en sa valeur indexée pour accélérer le traitement des données
-        self.indexed_text = [*map(self.get_word_index, self.full_text)]
+        #self.index_to_word = dict(enumerate(x for x in Counter(self.full_text).keys()))
+        #
+        ## initialisation du Dictionnaire à partir de index_to_word permettant la conversion d'un mot en index
+        #self.word_to_index = {v: k for k, v in self.index_to_word.items()}
+        #
+        ## convertis chacun des mots du text en sa valeur indexée pour accélérer le traitement des données
+        #self.indexed_text = [*map(self.get_word_index, self.full_text)]
 
     # def build_array(self):
     #     wordcount = len(self.word_to_index)

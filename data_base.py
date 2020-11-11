@@ -1,9 +1,11 @@
 import sqlite3 as sq
 import os
 
-GET_WORD_INDEX = '/SELECT ind FROM (?) WHERE word = (?)'
+GET_WORD_INDEX = 'SELECT ind, word FROM vocabulary_table WHERE word = (?)'
+GET_INDEX_WORD = 'SELECT word, ind FROM vocabulary_table WHERE ind = (?)'
 DB_PATH = 'coocurence_data_base.db'
 CONNECTION_ARGS = 'file:{}?mode={}'
+
 
 CREATE_INDEXES_TABLE = 'CREATE TABLE IF NOT EXISTS vocabulary_table  (' \
                        'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
@@ -46,10 +48,16 @@ class Data_Base:
             self.connection = self.create_database(DB_PATH)
         Data_Base.__instance = self
 
-    def get_word_index(self, word, table):
-        self.cursor.execute(GET_WORD_INDEX, (table, word))
+    def get_word_index(self, word="IS NOT NULL"): # Parametre par default present pour le cas ou cette requete doit retourner tous les mots
+        self.cursor.execute(GET_WORD_INDEX, (word))
         return self.cursor.fetchall()
 
+    def get_index_word(self, index="IS NOT NULL"):
+        self.cursor.execute(GET_INDEX_WORD, (index))
+        return self.cursor.fetchall()
+
+    def add_stop_word(self, word):
+        self.cursor.execute(INSERT_STOP_LIST, word)
 
     def add_word(self, word):
         self.cursor.execute(INSERT_NEW_WORD, word)

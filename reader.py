@@ -1,6 +1,6 @@
 from numpy.core.defchararray import lower
 import re
-
+import data_base as db
 
 class Reader:
     @staticmethod
@@ -14,9 +14,13 @@ class Reader:
 
     @staticmethod
     def read_stoplist():
-        stoplist = Reader.read('utf-8', ['stopword.txt'])
-        stoplist = stoplist.splitlines()
-        return stoplist
+            stoplist = Reader.read('utf-8', ['stopword.txt'])
+            stoplist = stoplist.splitlines()
+            for line in stoplist:
+                db.Data_Base.add_stop_word(line)
+
+            db.Data_Base.get_connection(db.DB_PATH).commit()
+
 
     @staticmethod
     def read_text(encoding, paths):
