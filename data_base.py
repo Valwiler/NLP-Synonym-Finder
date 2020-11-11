@@ -25,6 +25,7 @@ CREATE_STOP_LIST = 'CREATE TABLE IF NOT EXISTS stop_word_table ('\
                    'stop_word TEXT NOT NULL, '\
                    'FOREIGN KEY (id) REFERENCES vocabulary_table(id));'
 
+#BROKEN
 INSERT_NEW_WORD = 'INSERT INTO vocabulary_table VALUES( ? ) IF NOT EXISTS'
 INSERT_NEW_OCCURENCE = 'INSERT INTO (?) VALUES ( ?, ? , ? ) IF NOT EXISTS'  # toujouts penser a initialiser le nombre d'occurence a 0
 UPDATE_OCCURENCE = 'UPDATE (?) SET occurences = +1 WHERE id_word = (?) AND id_adjacent_word = (?)'
@@ -48,6 +49,7 @@ class Data_Base:
             self.connection = self.create_database(DB_PATH)
         Data_Base.__instance = self
 
+#BROKEN
     def get_word_index(self, word="IS NOT NULL"): # Parametre par default present pour le cas ou cette requete doit retourner tous les mots
         self.cursor.execute(GET_WORD_INDEX, (word))
         return self.cursor.fetchall()
@@ -58,7 +60,7 @@ class Data_Base:
 
     def add_stop_word(self, word):
         self.cursor.execute(INSERT_STOP_LIST, word)
-
+#BROKEN
     def add_word(self, word):
         self.cursor.execute(INSERT_NEW_WORD, word)
 
