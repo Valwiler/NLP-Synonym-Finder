@@ -2,6 +2,7 @@ from collections import Counter
 import numpy as np
 import data_base as bd
 import data_base as db
+from timeit import default_timer as t
 
 class Processor:
     def __init__(self, widow_size):
@@ -10,6 +11,7 @@ class Processor:
         self.word_to_index = dict()
         self.index_to_word = dict()
         self.indexed_text = list()
+        self.data_base = db.Data_Base.getInstance()
 
     def process_text(self, full_text):
         self.full_text = full_text
@@ -17,10 +19,13 @@ class Processor:
         self.result_array = self.build_array()
 
     def index(self):
-        for words in self.full_text:
-            db.Data_Base.add_word(db.Data_Base ,words)
-        self.index_to_word = db.Data_Base.get_index_word()
-        self.word_to_index = db.Data_Base.get_word_index()
+        debut = t()
+        for w in self.full_text:
+            self.data_base.add_word(w)
+        fin = t()
+        print(fin - debut)
+        self.index_to_word = self.data_base.get_index_word(self.data_base)
+        self.word_to_index = self.data_base.get_word_index(self.data_base)
         self.indexed_text = [*map(self.get_word_index, self.full_text)]
 
         # initialisation du Dictionnaire permettant la conversion d'un index en mot
