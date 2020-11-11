@@ -64,8 +64,8 @@ class Data_Base:
     def add_word(self, word):
         self.cursor.execute(INSERT_NEW_WORD, word)
 
-    def get_connection(self, path):
-        connection_string = CONNECTION_ARGS.format(path, 'rw')
+    def get_connection(self):
+        connection_string = CONNECTION_ARGS.format(DB_PATH, 'rw')
         connexion = sq.connect(connection_string, uri=True)
         return connexion
 

@@ -1,15 +1,17 @@
 import sys
 import trainer as t
+import argv_parser as arg
+import data_base as db
 
 
 # Loop principale du programme
 
 def main():
-    paths = []
-    window = int(sys.argv[1])
-    encoding = sys.argv[2]
-    for path in sys.argv[3:]:
-        paths.append(path)
+    arguments = arg.ArgvParser
+    paths = arguments.filesPath(arguments.getInstance())
+    window = arguments.windowSize(arguments.getInstance())
+    encoding = arguments.encoding(arguments.getInstance())
+    DB = db.Data_Base.create_database()
     while True:
         buffer = input('\nEntrez un mot, le nombre de synonymes que vous voulez et la methode de calcul.\n'
                        '( i.e. produit scalaire: 0, least-squares:1, city-block:2 )\n\n'
