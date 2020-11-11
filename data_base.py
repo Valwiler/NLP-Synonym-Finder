@@ -22,11 +22,11 @@ CREATE_STOP_LIST = 'CREATE TABLE IF NOT EXISTS stop_word_table ('\
                    'id INTEGER NOT NULL ,  '\
                    'stop_word TEXT NOT NULL, '\
                    'FOREIGN KEY (id) REFERENCES vocabulary_table(id));'
-
+                   
+#BROKEN
 INSERT_NEW_WORD = 'INSERT INTO vocabulary_table VALUES( ? ) IF NOT EXISTS'
 INSERT_NEW_OCCURENCE = 'INSERT INTO (?) VALUES ( ?, ? , ? ) IF NOT EXISTS'  # toujouts penser a initialiser le nombre d'occurence a 0
 UPDATE_OCCURENCE = 'UPDATE (?) SET occurences = +1 WHERE id_word = (?) AND id_adjacent_word = (?)'
-
 INSERT_STOP_LIST = 'INSERT INTO stop_word_table VALUES( ? ) IF NOT EXISTS '
 
 
@@ -45,12 +45,12 @@ class Data_Base:
         except sq.OperationalError:
             self.connection = self.create_database(DB_PATH)
         Data_Base.__instance = self
-
+    #BROKEN
     def get_word_index(self, word, table):
         self.cursor.execute(GET_WORD_INDEX, (table, word))
         return self.cursor.fetchall()
 
-
+    #BROKEN
     def add_word(self, word):
         self.cursor.execute(INSERT_NEW_WORD, word)
 
