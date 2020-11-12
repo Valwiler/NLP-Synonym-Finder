@@ -6,6 +6,7 @@ GET_VOCABULARY = 'SELECT id, word FROM vocabulary_table;'
 GET_WORD_INDEX = 'SELECT id FROM vocabulary_table WHERE word = (?);'
 GET_INDEX_WORD = 'SELECT word FROM vocabulary_table WHERE id = (?);'
 GET_COOCURENCE = 'SELECT * FROM (?) WHERE id_word = (?) AND id_adjacent_word = (?)'
+GET_COOCURENCE_TABLE = 'SELECT * FROM {} '
 
 DB_PATH = 'coocurence_data_base.db'
 CONNECTION_ARGS = 'file:{}?mode={}'
@@ -34,11 +35,14 @@ INSERT_NEW_OCCURENCE = 'INSERT OR IGNORE INTO (?) VALUES ( ?, ? , ? ) IF NOT EXI
 
 UPDATE_OCCURENCE = 'UPDATE (?) OR IGNORE SET SUM(occurences , (?)) WHERE id_word = (?) AND id_adjacent_word = (?);'
 
-UPSERT_OCCURENCE = '''INSERT INTO {}(id_word, id_adjacent_word, occurences) VALUES( ? , ? , ?)
-                      ON CONFLICT (id_word, id_adjacent_word) DO UPDATE SET  occurences = occurences + ?
-                      WHERE id_word = ? AND id_adjacent_word = ?;'''
+# UPSERT_OCCURENCE = '''INSERT INTO cooc_size2(id_word, id_adjacent_word, occurences) VALUES (?,?,?)
+#                       ON CONFLICT (id_word) WHERE id_word = (?) AND id_adjacent_word = (?)
+#                       DO UPDATE SET  occurences = occurences + (?)'''
 
+# WHERE id_word = (?) AND id_adjacent_word = (?);
 INSERT_STOP_LIST = 'INSERT INTO stop_word_table (word) VALUES( ? );'
+
+SELECT_COOCURENCE = 'SELECT * FROM {} WHERE id_word = (?) AND id_adjacent_word = (?)'
 
 
 class Data_Base:
@@ -73,6 +77,14 @@ class Data_Base:
             c.execute(GET_VOCABULARY)
             return c.fetchall()
 
+    def get_coocurence_table(self, table_name):
+        get_coocurence_table = GET_COOCURENCE_TABLE.format(table_name)
+        with closing(self.connection.cursor()) as c:
+            c.execute(get_coocurence_table)
+            result = c.fetchall()
+            result = {(row[0], row[1]): row[2] for row in result}
+            return result
+
     def add_stop_word(self, stopworditer):
         with closing(self.connection.cursor()) as c:
             c.executemany(INSERT_STOP_LIST, stopworditer)
@@ -81,10 +93,16 @@ class Data_Base:
         with closing(self.connection.cursor()) as c:
             c.executemany(INSERT_NEW_WORD, worditer)
 
-    def upsert_coocurence(self, table_name, coocurence_iter):
-        upsert_querry = UPSERT_OCCURENCE.format(table_name)
-        with closing(self.connection.cursor()) as c:
-            c.executemany(upsert_querry, coocurence_iter)
+    # def upsert_coocurence(self, table_name, coocurence_iter):
+    #     upsert_querry = UPSERT_OCCURENCE.format(table_name)
+    #     with closing(self.connection.cursor()) as c:
+    #         c.executemany(upsert_querry, coocurence_iter)
+    #
+    # def select_coocurence(self, table_name, ids):
+    #     select_querry = SELECT_COOCURENCE.format(table_name)
+    #     with closing(self.connection.cursor()) as c:
+    #         c.execute(select_querry, (ids[0], ids[1],))
+    #         return c.fetchall()
 
     def commit(self):
         self.connection.commit()
@@ -95,13 +113,13 @@ class Data_Base:
         connexion = sq.connect(connection_string, uri=True)
         return connexion
 
-    def get_coocurence_table(self, table_name):
-        pass
-
     def create_coocurence_table(self, table_name):
         with closing(self.connection.cursor()) as c:
             c.execute(CREATE_COOCURENCE_TABLE.format(table_name))
-            c.execute(CREATE_COMPOSITE_INDEX.format(table_name, table_name))
+            try:
+                c.execute(CREATE_COMPOSITE_INDEX.format(table_name, table_name))
+            except sq.OperationalError:
+                pass
 
     # def get_cursor(self):
     #     return self.connection.cursor()
