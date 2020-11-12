@@ -25,7 +25,7 @@ CREATE_STOP_LIST = 'CREATE TABLE IF NOT EXISTS stop_word_table (' \
                    'FOREIGN KEY (id) REFERENCES vocabulary_table(id));'
 
 # BROKEN
-INSERT_NEW_WORD = 'INSERT INTO vocabulary_table (word) VALUES (?); '
+INSERT_NEW_WORD = 'INSERT OR IGNORE INTO vocabulary_table (word) VALUES (?); '
 INSERT_NEW_OCCURENCE = 'INSERT INTO (?) VALUES ( ?, ? , ? ) IF NOT EXISTS;'  # toujouts penser a initialiser le nombre d'occurence a 0
 UPDATE_OCCURENCE = 'UPDATE (?) SET occurences = +1 WHERE id_word = (?) AND id_adjacent_word = (?);'
 
@@ -64,12 +64,11 @@ class Data_Base:
     # BROKEN
     def add_word(self, word):
         print(word)
-        c = self.connection.cursor()
-        c.execute(INSERT_NEW_WORD, (word,))
+        self.connection.cursor().execute(INSERT_NEW_WORD, (word,))
         self.commit()
 
     def commit(self):
-        self.get_connection().commit()
+        self.connection.commit()
         print('commit')
 
     def get_connection(self):
@@ -82,14 +81,13 @@ class Data_Base:
 
     def create_database(self):
         connection_string = CONNECTION_ARGS.format(DB_PATH, 'rwc')
-        connexion = sq.connect(connection_string, uri=True, isolation_level='DEFERRED')
+        connexion = sq.connect(connection_string, uri=True, isolation_level='None')
         c = connexion.cursor()
         c.execute('''PRAGMA synchronous = OFF''')
         c.execute('''PRAGMA journal_mode = OFF''')
         c.execute(CREATE_INDEXES_TABLE)
         c.execute(CREATE_INDEX_ON_INDEXES)
         c.execute(CREATE_STOP_LIST)
-        c.execute(INSERT_NEW_WORD, ('coucou',))
         connexion.commit()
         return connexion
 
