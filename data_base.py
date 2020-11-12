@@ -1,16 +1,17 @@
 import sqlite3 as sq
-import os
+from contextlib import closing
 
-GET_WORD_INDEX = 'SELECT id, word FROM vocabulary_table WHERE word = (?)'
-GET_INDEX_WORD = 'SELECT id, word FROM vocabulary_table WHERE id = (?)'
+GET_VOCABULARY = 'SELECT id, word FROM vocabulary_table;'
+GET_WORD_INDEX = 'SELECT id FROM vocabulary_table WHERE word = (?);'
+GET_INDEX_WORD = 'SELECT word FROM vocabulary_table WHERE id = (?);'
 DB_PATH = 'coocurence_data_base.db'
 CONNECTION_ARGS = 'file:{}?mode={}'
 
 CREATE_INDEXES_TABLE = 'CREATE TABLE IF NOT EXISTS vocabulary_table  (' \
                        'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
-                       'word TEXT NOT NULL UNIQUE);'
+                       'word TEXT NOT NULL);'
 
-CREATE_INDEX_ON_INDEXES = 'CREATE UNIQUE INDEX IF NOT EXISTS vocabulary_index ON vocabulary_table(word);'
+CREATE_UNIQUE_INDEX = 'CREATE UNIQUE INDEX {} ON {}(word);'
 
 CREATE_COOCURENCE_TABLE = ' CREATE TABLE IF NOT EXISTS c{} (' \
                           'id_word INTEGER  NOT NULL, ' \
@@ -20,16 +21,13 @@ CREATE_COOCURENCE_TABLE = ' CREATE TABLE IF NOT EXISTS c{} (' \
                           'FOREIGN KEY (id_adjacent_word) REFERENCES vocabulary_table(id));'
 
 CREATE_STOP_LIST = 'CREATE TABLE IF NOT EXISTS stop_word_table (' \
-                   'id INTEGER NOT NULL ,  ' \
-                   'stop_word TEXT NOT NULL, ' \
-                   'FOREIGN KEY (id) REFERENCES vocabulary_table(id));'
+                   'word TEXT NOT NULL);'
 
-# BROKEN
 INSERT_NEW_WORD = 'INSERT OR IGNORE INTO vocabulary_table (word) VALUES (?); '
 INSERT_NEW_OCCURENCE = 'INSERT INTO (?) VALUES ( ?, ? , ? ) IF NOT EXISTS;'  # toujouts penser a initialiser le nombre d'occurence a 0
 UPDATE_OCCURENCE = 'UPDATE (?) SET occurences = +1 WHERE id_word = (?) AND id_adjacent_word = (?);'
 
-INSERT_STOP_LIST = 'INSERT INTO stop_word_table VALUES( ? ) IF NOT EXISTS;'
+INSERT_STOP_LIST = 'INSERT INTO stop_word_table (word) VALUES( ? );'
 
 
 class Data_Base:
@@ -49,23 +47,28 @@ class Data_Base:
         Data_Base.__instance = self
 
     # BROKEN
-    def get_word_index(self,
-                       word="IS NOT NULL"):  # Parametre par default present pour le cas ou cette requete doit retourner tous les mots
-        self.get_cursor(self).execute(GET_WORD_INDEX, word)
-        return self.get_cursor().fetchall()
+    def get_word_index(self, word):
+        with closing(self.connection.cursor()) as c:
+            c.execute(GET_WORD_INDEX, (word,))
+            return c.fetchall()
 
-    def get_index_word(self, index="IS NOT NULL"):
-        self.get_cursor().execute(GET_INDEX_WORD, index)
-        return self.cursor.fetchall()
+    def get_index_word(self, index):
+        with closing(self.connection.cursor()) as c:
+            c.execute(GET_INDEX_WORD, (index,))
+            return c.fetchall()
 
-    def add_stop_word(self, word):
-        self.get_cursor().execute(INSERT_STOP_LIST, word)
+    def get_vocabulary(self):
+        with closing(self.connection.cursor()) as c:
+            c.execute(GET_VOCABULARY)
+            return c.fetchall()
 
-    # BROKEN
-    def add_word(self, word):
-        print(word)
-        self.connection.cursor().execute(INSERT_NEW_WORD, (word,))
-        self.commit()
+    def add_stop_word(self, stopworditer):
+        with closing(self.connection.cursor()) as c:
+            c.executemany(INSERT_STOP_LIST, stopworditer)
+
+    def add_words(self, worditer):
+        with closing(self.connection.cursor()) as c:
+            c.executemany(INSERT_NEW_WORD, worditer)
 
     def commit(self):
         self.connection.commit()
@@ -76,18 +79,21 @@ class Data_Base:
         connexion = sq.connect(connection_string, uri=True)
         return connexion
 
-    def get_cursor(self):
-        return self.connection.cursor()
+    def create_coocurence_table(self):
+        pass
+    # def get_cursor(self):
+    #     return self.connection.cursor()
 
     def create_database(self):
         connection_string = CONNECTION_ARGS.format(DB_PATH, 'rwc')
-        connexion = sq.connect(connection_string, uri=True, isolation_level='None')
-        c = connexion.cursor()
-        c.execute('''PRAGMA synchronous = OFF''')
-        c.execute('''PRAGMA journal_mode = OFF''')
-        c.execute(CREATE_INDEXES_TABLE)
-        c.execute(CREATE_INDEX_ON_INDEXES)
-        c.execute(CREATE_STOP_LIST)
+        connexion = sq.connect(connection_string, uri=True, isolation_level='DEFERRED')
+        with closing(connexion.cursor()) as c:
+            c.execute('''PRAGMA synchronous = OFF''')
+            c.execute('''PRAGMA journal_mode = OFF''')
+            c.execute(CREATE_INDEXES_TABLE)
+            c.execute(CREATE_UNIQUE_INDEX.format('vocabulary_index', 'vocabulary_table'))
+            c.execute(CREATE_STOP_LIST)
+            c.execute(CREATE_UNIQUE_INDEX.format('stop_word_index', 'stop_word_table'))
         connexion.commit()
         return connexion
 

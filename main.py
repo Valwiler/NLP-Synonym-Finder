@@ -9,15 +9,15 @@ import processor as pr
 
 def main():
     arguments = arg.ArgvParser
-    paths = arguments.filesPath(arguments.getInstance())
-    window = arguments.windowSize(arguments.getInstance())
-    encoding = arguments.encoding(arguments.getInstance())
+    paths = arguments.getInstance().filesPath()
+    window = arguments.getInstance().windowSize()
+    encoding = arguments.getInstance().encoding()
     DB = db.getInstance()
 
-    if arguments.isTrainingMode(arguments.getInstance()):
+    if arguments.getInstance().isTrainingMode():
         processor = pr.Processor(window)
         processor.process_text(encoding, paths)
-    elif arguments.isResearchMode(arguments.getInstance()):
+    elif arguments.getInstance().isResearchMode():
         pass
 
     # while True:

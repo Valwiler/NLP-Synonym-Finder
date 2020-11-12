@@ -16,9 +16,9 @@ class Trainer:
             raise ValueError('Mot absent')
         self.co_occurence_matrix = self.processor.result_array
         self.index_to_word = self.processor.index_to_word
-        self.stop_list = r.read_stoplist()
-        self.stop_list = [self.word_to_index.get(word) for word in self.stop_list if self.word_to_index.get(word)]
-        self.stop_list.append(self.target_word_index)
+        #self.stop_list = r.read_stoplist()
+        #self.stop_list = [self.word_to_index.get(word) for word in self.stop_list if self.word_to_index.get(word)]
+        #self.stop_list.append(self.target_word_index)
 
     def training(self, training_type):
         # On assigne le vecteur du mot recherché
