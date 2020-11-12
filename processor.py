@@ -1,8 +1,9 @@
 from collections import Counter
 import numpy as np
-import data_base as bd
 import data_base as db
 from timeit import default_timer as t
+import reader as r
+
 
 class Processor:
     def __init__(self, widow_size):
@@ -13,63 +14,21 @@ class Processor:
         self.indexed_text = list()
         self.data_base = db.Data_Base.getInstance()
 
-    def process_text(self, full_text):
-        self.full_text = full_text
+    def process_text(self, encoding, paths):
+        self.full_text = r.Reader.read_text(encoding, paths)
         self.index()
-        self.result_array = self.build_array()
+        # self.result_array = self.build_array()
 
     def index(self):
         debut = t()
         for w in self.full_text:
             self.data_base.add_word(w)
         fin = t()
+        self.data_base.commit()
         print(fin - debut)
-        self.index_to_word = self.data_base.get_index_word(self.data_base)
-        self.word_to_index = self.data_base.get_word_index(self.data_base)
-        self.indexed_text = [*map(self.get_word_index, self.full_text)]
-
-        # initialisation du Dictionnaire permettant la conversion d'un index en mot
-        #self.index_to_word = dict(enumerate(x for x in Counter(self.full_text).keys()))
-        #
-        ## initialisation du Dictionnaire à partir de index_to_word permettant la conversion d'un mot en index
-        #self.word_to_index = {v: k for k, v in self.index_to_word.items()}
-        #
-        ## convertis chacun des mots du text en sa valeur indexée pour accélérer le traitement des données
-
-
-    # def build_array(self):
-    #     wordcount = len(self.word_to_index)
-    #
-    #     # génération de la matrice Numpy en fonction du nombre de mots unique dans le corpus
-    #     co_occurence_matrix = np.zeros((wordcount * wordcount), dtype=int)
-    #
-    #     for i, word in enumerate(self.indexed_text):
-    #         # on va chercher les mots dans la fenêtre de contexte de chaques mots
-    #         adjacent_word_list = self.indexed_text[i + 1: i + self.window_size + 1]
-    #         # On incrémente le poid de mots à travers le vecteur sélectionné en fonction de sa fréquence
-    #         # dans le contexte
-    #         for adjacent_word in adjacent_word_list:
-    #             co_occurence_matrix[adjacent_word + (word * wordcount)] += 1
-    #             co_occurence_matrix[word + (adjacent_word * wordcount)] += 1
-    #
-    #     co_occurence_matrix = co_occurence_matrix.reshape((wordcount, wordcount))
-    #
-    #     return co_occurence_matrix
-
-    def build_array(self):
-        wordcount = len(self.word_to_index)
-
-        co_occurence_matrix = np.zeros((wordcount * wordcount), dtype=int)
-
-        coocurence_dictionarie = {}
-
-        for word in self.indexed_text:
-            for i in range(self.window_size):
-                pass
-                 #coocurence_dictionarie.
-
-        return co_occurence_matrix
-
+        # self.index_to_word = self.data_base.get_index_word(self.data_base)
+        # self.word_to_index = self.data_base.get_word_index(self.data_base)
+        # self.indexed_text = [*map(self.get_word_index, self.full_text)]
 
     def get_word_index(self, word):
         return self.word_to_index[word]

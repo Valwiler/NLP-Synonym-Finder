@@ -2,17 +2,17 @@ import argparse
 import sys
 
 class ArgvParser:
-    _instance = None
+    __instance = None
 
     @staticmethod
     def getInstance():
-        if ArgvParser._instance is None:
+        if ArgvParser.__instance is None:
             ArgvParser()
-        return ArgvParser._instance
+        return ArgvParser.__instance
 
     def __init__(self):
-        if ArgvParser._instance is None:
-            ArgvParser._instance = self
+        if ArgvParser.__instance is None:
+            ArgvParser.__instance = self
         
         self._parser = argparse.ArgumentParser()
         self._initArguments()

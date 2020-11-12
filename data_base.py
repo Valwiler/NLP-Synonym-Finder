@@ -1,13 +1,10 @@
 import sqlite3 as sq
 import os
 
-
-
 GET_WORD_INDEX = 'SELECT id, word FROM vocabulary_table WHERE word = (?)'
 GET_INDEX_WORD = 'SELECT id, word FROM vocabulary_table WHERE id = (?)'
 DB_PATH = 'coocurence_data_base.db'
 CONNECTION_ARGS = 'file:{}?mode={}'
-
 
 CREATE_INDEXES_TABLE = 'CREATE TABLE IF NOT EXISTS vocabulary_table  (' \
                        'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
@@ -22,17 +19,17 @@ CREATE_COOCURENCE_TABLE = ' CREATE TABLE IF NOT EXISTS c{} (' \
                           'FOREIGN KEY (id_word) REFERENCES vocabulary_table(id),' \
                           'FOREIGN KEY (id_adjacent_word) REFERENCES vocabulary_table(id));'
 
-CREATE_STOP_LIST = 'CREATE TABLE IF NOT EXISTS stop_word_table ('\
-                   'id INTEGER NOT NULL ,  '\
-                   'stop_word TEXT NOT NULL, '\
+CREATE_STOP_LIST = 'CREATE TABLE IF NOT EXISTS stop_word_table (' \
+                   'id INTEGER NOT NULL ,  ' \
+                   'stop_word TEXT NOT NULL, ' \
                    'FOREIGN KEY (id) REFERENCES vocabulary_table(id));'
 
-#BROKEN
-INSERT_NEW_WORD = 'INSERT OR IGNORE INTO vocabulary_table (word) VALUES( ? )'
-INSERT_NEW_OCCURENCE = 'INSERT INTO (?) VALUES ( ?, ? , ? ) IF NOT EXISTS'  # toujouts penser a initialiser le nombre d'occurence a 0
-UPDATE_OCCURENCE = 'UPDATE (?) SET occurences = +1 WHERE id_word = (?) AND id_adjacent_word = (?)'
+# BROKEN
+INSERT_NEW_WORD = 'INSERT INTO vocabulary_table (word) VALUES (?); '
+INSERT_NEW_OCCURENCE = 'INSERT INTO (?) VALUES ( ?, ? , ? ) IF NOT EXISTS;'  # toujouts penser a initialiser le nombre d'occurence a 0
+UPDATE_OCCURENCE = 'UPDATE (?) SET occurences = +1 WHERE id_word = (?) AND id_adjacent_word = (?);'
 
-INSERT_STOP_LIST = 'INSERT INTO stop_word_table VALUES( ? ) IF NOT EXISTS '
+INSERT_STOP_LIST = 'INSERT INTO stop_word_table VALUES( ? ) IF NOT EXISTS;'
 
 
 class Data_Base:
@@ -51,8 +48,9 @@ class Data_Base:
             self.connection = self.create_database()
         Data_Base.__instance = self
 
-#BROKEN
-    def get_word_index(self, word="IS NOT NULL"): # Parametre par default present pour le cas ou cette requete doit retourner tous les mots
+    # BROKEN
+    def get_word_index(self,
+                       word="IS NOT NULL"):  # Parametre par default present pour le cas ou cette requete doit retourner tous les mots
         self.get_cursor(self).execute(GET_WORD_INDEX, word)
         return self.get_cursor().fetchall()
 
@@ -62,10 +60,17 @@ class Data_Base:
 
     def add_stop_word(self, word):
         self.get_cursor().execute(INSERT_STOP_LIST, word)
-#BROKEN
+
+    # BROKEN
     def add_word(self, word):
-        self.get_cursor().execute(INSERT_NEW_WORD, word)
+        print(word)
+        c = self.connection.cursor()
+        c.execute(INSERT_NEW_WORD, (word,))
+        self.commit()
+
+    def commit(self):
         self.get_connection().commit()
+        print('commit')
 
     def get_connection(self):
         connection_string = CONNECTION_ARGS.format(DB_PATH, 'rw')
@@ -73,7 +78,7 @@ class Data_Base:
         return connexion
 
     def get_cursor(self):
-        return self.get_connection().cursor()
+        return self.connection.cursor()
 
     def create_database(self):
         connection_string = CONNECTION_ARGS.format(DB_PATH, 'rwc')
@@ -83,8 +88,8 @@ class Data_Base:
         c.execute('''PRAGMA journal_mode = OFF''')
         c.execute(CREATE_INDEXES_TABLE)
         c.execute(CREATE_INDEX_ON_INDEXES)
-        c.execute(CREATE_COOCURENCE_TABLE.format('5'))
         c.execute(CREATE_STOP_LIST)
+        c.execute(INSERT_NEW_WORD, ('coucou',))
         connexion.commit()
         return connexion
 
