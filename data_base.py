@@ -33,16 +33,11 @@ CREATE_STOP_LIST = 'CREATE TABLE IF NOT EXISTS stop_word_table (' \
 INSERT_NEW_WORD = 'INSERT OR IGNORE INTO vocabulary_table (word) VALUES (?); '
 INSERT_NEW_OCCURENCE = 'INSERT OR IGNORE INTO (?) VALUES ( ?, ? , ? ) IF NOT EXISTS;'
 
-UPDATE_OCCURENCE = 'UPDATE (?) OR IGNORE SET SUM(occurences , (?)) WHERE id_word = (?) AND id_adjacent_word = (?);'
+UPDATE_COOCCURENCE = 'INSERT or REPLACE INTO {}(id_word, id_adjacent_word, occurences) VALUES( ? , ? , ? );'
 
-# UPSERT_OCCURENCE = '''INSERT INTO cooc_size2(id_word, id_adjacent_word, occurences) VALUES (?,?,?)
-#                       ON CONFLICT (id_word) WHERE id_word = (?) AND id_adjacent_word = (?)
-#                       DO UPDATE SET  occurences = occurences + (?)'''
-
-# WHERE id_word = (?) AND id_adjacent_word = (?);
 INSERT_STOP_LIST = 'INSERT INTO stop_word_table (word) VALUES( ? );'
 
-SELECT_COOCURENCE = 'SELECT * FROM {} WHERE id_word = (?) AND id_adjacent_word = (?)'
+COUNT_VOCABULARY = 'SELECT COUNT(*) FROM vocabulary_table'
 
 
 class Data_Base:
@@ -61,7 +56,6 @@ class Data_Base:
             self.connection = self.create_database()
         Data_Base.__instance = self
 
-    # BROKEN
     def get_word_index(self, word):
         with closing(self.connection.cursor()) as c:
             c.execute(GET_WORD_INDEX, (word,))
@@ -78,12 +72,25 @@ class Data_Base:
             return c.fetchall()
 
     def get_coocurence_table(self, table_name):
-        get_coocurence_table = GET_COOCURENCE_TABLE.format(table_name)
+        try:
+            get_coocurence_table = GET_COOCURENCE_TABLE.format(table_name)
+            with closing(self.connection.cursor()) as c:
+                c.execute(get_coocurence_table)
+                result = c.fetchall()
+                result = {(row[0], row[1]): row[2] for row in result}
+                return result
+        except sq.OperationalError:
+            return
+
+    def get_connection(self):
+        connection_string = CONNECTION_ARGS.format(DB_PATH, 'rw')
+        connexion = sq.connect(connection_string, uri=True)
+        return connexion
+
+    def get_vocabulary_legnth(self):
         with closing(self.connection.cursor()) as c:
-            c.execute(get_coocurence_table)
-            result = c.fetchall()
-            result = {(row[0], row[1]): row[2] for row in result}
-            return result
+            c.execute(COUNT_VOCABULARY)
+            return c.fetchone()[0]
 
     def add_stop_word(self, stopworditer):
         with closing(self.connection.cursor()) as c:
@@ -93,25 +100,14 @@ class Data_Base:
         with closing(self.connection.cursor()) as c:
             c.executemany(INSERT_NEW_WORD, worditer)
 
-    # def upsert_coocurence(self, table_name, coocurence_iter):
-    #     upsert_querry = UPSERT_OCCURENCE.format(table_name)
-    #     with closing(self.connection.cursor()) as c:
-    #         c.executemany(upsert_querry, coocurence_iter)
-    #
-    # def select_coocurence(self, table_name, ids):
-    #     select_querry = SELECT_COOCURENCE.format(table_name)
-    #     with closing(self.connection.cursor()) as c:
-    #         c.execute(select_querry, (ids[0], ids[1],))
-    #         return c.fetchall()
+    def update_coocurence(self, table_name, coocurence_iter):
+        update_querry = UPDATE_COOCCURENCE.format(table_name)
+        with closing(self.connection.cursor()) as c:
+            c.executemany(update_querry, coocurence_iter)
 
     def commit(self):
         self.connection.commit()
         print('commit')
-
-    def get_connection(self):
-        connection_string = CONNECTION_ARGS.format(DB_PATH, 'rw')
-        connexion = sq.connect(connection_string, uri=True)
-        return connexion
 
     def create_coocurence_table(self, table_name):
         with closing(self.connection.cursor()) as c:
@@ -120,9 +116,6 @@ class Data_Base:
                 c.execute(CREATE_COMPOSITE_INDEX.format(table_name, table_name))
             except sq.OperationalError:
                 pass
-
-    # def get_cursor(self):
-    #     return self.connection.cursor()
 
     def create_database(self):
         connection_string = CONNECTION_ARGS.format(DB_PATH, 'rwc')

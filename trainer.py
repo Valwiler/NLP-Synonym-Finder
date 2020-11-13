@@ -1,53 +1,55 @@
-from reader import Reader as r
-import processor as pr
-import numpy as np
+from collections import Counter
+from data_base import Data_Base as db
+import reader as r
 
 
 class Trainer:
+    def __init__(self, widow_size):
+        self.full_text = []
+        self.window_size = int(widow_size / 2)
+        self.word_to_index = dict()
+        self.index_to_word = dict()
+        self.indexed_text = list()
+        self.data_base = db.getInstance()
 
-    def __init__(self, researched_word, result_nb, window_size, encoding, paths):
-        self.result_nb = result_nb
-        self.processor = pr.Processor(window_size)
-        self.processor.process_text(r.read_text(encoding, paths))
-        self.word_to_index = self.processor.word_to_index
-        if researched_word in self.word_to_index.keys():
-            self.target_word_index = self.word_to_index.get(researched_word)
-        else:
-            raise ValueError('Mot absent')
-        self.co_occurence_matrix = self.processor.result_array
-        self.index_to_word = self.processor.index_to_word
-        #self.stop_list = r.read_stoplist()
-        #self.stop_list = [self.word_to_index.get(word) for word in self.stop_list if self.word_to_index.get(word)]
-        #self.stop_list.append(self.target_word_index)
+    def process_text(self, encoding, paths):
+        self.full_text = r.Reader.read_text(encoding, paths)
+        self.index()
+        self.search_cooccurence()
 
-    def training(self, training_type):
-        # On assigne le vecteur du mot recherché
-        target_vector = self.co_occurence_matrix[self.target_word_index]
-        training_methods = {0: self.prod_scalaire,
-                           1: self.least_square,
-                           2: self.city_block}
-        training_method = training_methods.get(training_type)
-        scores = [training_method(target_vector, row) for row in self.co_occurence_matrix]
-        scores = enumerate(scores)
-        scores = sorted(scores, key=lambda x: x[1], reverse=bool(training_method is self.prod_scalaire))
-        top = list()
-        i = 0
-        # On garde seulement le nombre de synonymme recherché
-        while len(top) < self.result_nb:
-            if scores[i][0] not in self.stop_list:
-                top.append(scores[i])
-            i += 1
-        results = list(zip([self.index_to_word.get(index[0]) for index in top], [scores[1] for scores in top]))
-        return results
+    def index(self):
+        self.index_to_word = dict(enumerate(x for x in Counter(self.full_text).keys()))
+        index_iter = self.word_generator()
+        self.data_base.add_words(index_iter)
+        self.data_base.commit()
+        self.index_to_word = dict(self.data_base.get_vocabulary())
+        # initialisation du Dictionnaire à partir de index_to_word permettant la conversion d'un mot en index
+        self.word_to_index = {v: k for k, v in self.index_to_word.items()}
+        # convertis chacun des mots du text en sa valeur indexée pour accélérer le traitement des données
+        self.indexed_text = [*map(self.get_word_index, self.full_text)]
 
-    @staticmethod
-    def prod_scalaire(vect1, vect2):
-        return np.dot(vect1, vect2)
+    def word_generator(self):
+        for w in self.index_to_word.values():
+            yield (w,)
 
-    @staticmethod
-    def least_square(vect1, vect2):
-        return np.sum((vect1 - vect2)**2)
+    def search_cooccurence(self):
+        word_count = len(self.indexed_text)
+        table_name = 'cooc_size' + str(self.window_size)
+        self.data_base.create_coocurence_table(table_name)
+        cooc_dictionarie = self.data_base.get_coocurence_table(table_name)
+        for i, word in enumerate(self.indexed_text):
+            limit = min(i + self.window_size, word_count - 1)
+            for j in range(limit, i, -1):
+                key_value = (word, self.indexed_text[j])
+                reversed_key_value = (self.indexed_text[j], word)
+                cooc_dictionarie[key_value] = cooc_dictionarie.get(key_value, 0) + 1
+                cooc_dictionarie[reversed_key_value] = cooc_dictionarie.get(reversed_key_value, 0) + 1
+        self.data_base.update_coocurence(table_name, self.cooccurence_generator(cooc_dictionarie))
+        self.data_base.commit()
 
-    @staticmethod
-    def city_block(vect1, vect2):
-        return np.sum(np.absolute(vect1 - vect2))
+    def cooccurence_generator(self, cooc_dictionnarie):
+        for ids, occurences in cooc_dictionnarie.items():
+            yield ids[0], ids[1], occurences
+
+    def get_word_index(self, word):
+        return self.word_to_index[word]
