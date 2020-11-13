@@ -2,7 +2,6 @@ from collections import Counter
 from data_base import Data_Base as db
 import reader as r
 
-
 class Trainer:
     def __init__(self, widow_size):
         self.full_text = []

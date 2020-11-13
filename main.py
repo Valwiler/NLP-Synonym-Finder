@@ -3,14 +3,13 @@ from data_base import Data_Base as db
 from trainer import Trainer as tr
 from synonym_finder import Synonym_Finder as sf
 
-# Loop principale du programme
 
 def main():
     arguments = arg.ArgvParser
     paths = arguments.getInstance().filesPath()
     window = arguments.getInstance().windowSize()
     encoding = arguments.getInstance().encoding()
-    DB = db.getInstance()
+    data_base = db.getInstance()
 
     if arguments.getInstance().isTrainingMode():
         trainer = tr(window)
@@ -33,9 +32,10 @@ def main():
                 for result in results:
                     print(result[0] + ' --> ' + str(result[1]))
                 print('\n')
-            except ValueError:
-                print('mot absent')
+            except ValueError as e:
+                print('\n' + str(e))
                 continue
+    data_base.connection.close()
 
 
 if __name__ == '__main__':

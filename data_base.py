@@ -1,5 +1,6 @@
 import sqlite3 as sq
 from contextlib import closing
+
 from reader import Reader as r
 
 DB_PATH = 'coocurence_data_base.db'
@@ -56,16 +57,6 @@ class Data_Base:
         except sq.OperationalError:
             self.connection = self.create_database()
         Data_Base.__instance = self
-
-    def get_word_index(self, word):
-        with closing(self.connection.cursor()) as c:
-            c.execute(GET_WORD_INDEX, (word,))
-            return c.fetchall()
-
-    def get_index_word(self, index):
-        with closing(self.connection.cursor()) as c:
-            c.execute(GET_INDEX_WORD, (index,))
-            return c.fetchall()
 
     def get_vocabulary(self):
         with closing(self.connection.cursor()) as c:
@@ -128,8 +119,8 @@ class Data_Base:
 
     def create_database(self):
         connection_string = CONNECTION_ARGS.format(DB_PATH, 'rwc')
-        connexion = sq.connect(connection_string, uri=True, isolation_level='DEFERRED')
-        with closing(connexion.cursor()) as c:
+        connection = sq.connect(connection_string, uri=True, isolation_level='DEFERRED')
+        with closing(connection.cursor()) as c:
             c.execute('''PRAGMA synchronous = OFF''')
             c.execute('''PRAGMA journal_mode = OFF''')
             c.execute(CREATE_INDEXES_TABLE)
@@ -137,5 +128,5 @@ class Data_Base:
             c.execute(CREATE_STOP_LIST)
             c.execute(CREATE_UNIQUE_INDEX.format('stop_word_index', 'stop_word_table'))
             c.executemany(INSERT_STOP_LIST, r.read_stoplist())
-        connexion.commit()
-        return connexion
+        connection.commit()
+        return connection
