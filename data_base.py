@@ -2,14 +2,15 @@ import sqlite3 as sq
 from contextlib import closing
 from reader import Reader as r
 
+DB_PATH = 'coocurence_data_base.db'
+CONNECTION_ARGS = 'file:{}?mode={}'
+
 GET_VOCABULARY = 'SELECT id, word FROM vocabulary_table;'
 GET_WORD_INDEX = 'SELECT id FROM vocabulary_table WHERE word = (?);'
 GET_INDEX_WORD = 'SELECT word FROM vocabulary_table WHERE id = (?);'
 GET_COOCURENCE = 'SELECT * FROM (?) WHERE id_word = (?) AND id_adjacent_word = (?)'
 GET_COOCURENCE_TABLE = 'SELECT * FROM {} '
-
-DB_PATH = 'coocurence_data_base.db'
-CONNECTION_ARGS = 'file:{}?mode={}'
+GET_STOP_LIST = 'SELECT word FROM stop_word_table'
 
 CREATE_INDEXES_TABLE = 'CREATE TABLE IF NOT EXISTS vocabulary_table  (' \
                        'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
@@ -31,11 +32,11 @@ CREATE_STOP_LIST = 'CREATE TABLE IF NOT EXISTS stop_word_table (' \
                    'word TEXT NOT NULL);'
 
 INSERT_NEW_WORD = 'INSERT OR IGNORE INTO vocabulary_table (word) VALUES (?); '
+INSERT_FIRST_WORD = 'INSERT INTO vocabulary_table (id ,word) VALUES (0, ?); '
 INSERT_NEW_OCCURENCE = 'INSERT OR IGNORE INTO (?) VALUES ( ?, ? , ? ) IF NOT EXISTS;'
+INSERT_STOP_LIST = 'INSERT INTO stop_word_table (word) VALUES( ? );'
 
 UPDATE_COOCCURENCE = 'INSERT or REPLACE INTO {}(id_word, id_adjacent_word, occurences) VALUES( ? , ? , ? );'
-
-INSERT_STOP_LIST = 'INSERT INTO stop_word_table (word) VALUES( ? );'
 
 COUNT_VOCABULARY = 'SELECT COUNT(*) FROM vocabulary_table'
 
@@ -87,10 +88,16 @@ class Data_Base:
         connexion = sq.connect(connection_string, uri=True)
         return connexion
 
-    def get_vocabulary_legnth(self):
+    def get_vocabulary_length(self):
         with closing(self.connection.cursor()) as c:
             c.execute(COUNT_VOCABULARY)
             return c.fetchone()[0]
+
+    def get_stop_list(self):
+        with closing(self.connection.cursor()) as c:
+            c.execute(GET_STOP_LIST)
+            result = c.fetchall()
+            return [word[0] for word in result]
 
     def add_stop_word(self, stopworditer):
         with closing(self.connection.cursor()) as c:
@@ -98,6 +105,8 @@ class Data_Base:
 
     def add_words(self, worditer):
         with closing(self.connection.cursor()) as c:
+            if self.get_vocabulary_length() == 0:
+                c.execute(INSERT_FIRST_WORD, next(worditer))
             c.executemany(INSERT_NEW_WORD, worditer)
 
     def update_coocurence(self, table_name, coocurence_iter):
@@ -130,7 +139,3 @@ class Data_Base:
             c.executemany(INSERT_STOP_LIST, r.read_stoplist())
         connexion.commit()
         return connexion
-
-
-if __name__ == '__main__':
-    Data_Base.getInstance()
