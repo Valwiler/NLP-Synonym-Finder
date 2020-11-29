@@ -1,5 +1,4 @@
 import numpy
-import time
 class Point:
     def __init__(self, coordinates):
         self.coordinates = coordinates
@@ -73,8 +72,6 @@ class Clustering:
         return numpy.sum(ajusted_coordinates.coordinates)
 
     def run(self, clusters_coodinates):
-        total_start_time = time.time()
-                
         self._init_clusters(clusters_coodinates)
 
         # Emulating a do-while loop
@@ -93,7 +90,6 @@ class Clustering:
             if old_clusters == self.clusters:
                 break
         
-        Clustering.total_time += time.time() - total_start_time
         return self.clusters
 
     def _init_clusters(self, clusters_coodinates):
