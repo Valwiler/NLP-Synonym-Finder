@@ -1,28 +1,35 @@
+import numpy
+import time
 class Point:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self, coordinates):
+        self.coordinates = coordinates
 
     def __sub__(self, other):
-        return Point(self.x - other.x, self.y - other.y)
+        return Point(numpy.subtract(self.coordinates, other.coordinates))
 
     def __add__(self, other):
-        return Point(self.x + other.x, self.y + other.y)
+        return Point(numpy.add(self.coordinates, other.coordinates))
+
+    def __pow__(self, other):
+        if isinstance(other, int):
+            return Point(numpy.power(self.coordinates, other))
+        else:
+            return Point(numpy.power(self.coordinates, other.coordinates))
 
     def __truediv__(self, other):
         if isinstance(other, int):
-            return Point(self.x / other, self.y / other)
+            return Point(numpy.divide(self.coordinates, other))
         else:
-            return Point(self.x / other.x, self.y / other.y)
+            return Point(numpy.divide(self.coordinates, other.coordinates))
 
     def __eq__(self, other):
-        return self.x == other.x and self.y == other.y
+        return numpy.equal(self.coordinates, other.coordinates).all()
 
     def __hash__(self):
-        return (self.x, self.y).__hash__()
+        return tuple(self.coordinates).__hash__()
 
     def __str__(self):
-        return "[" + self.x.__str__() + ", " + self.y.__str__() + "]"
+        return str(self.coordinates)
 
 class Cluster(Point):
     """
@@ -30,18 +37,17 @@ class Cluster(Point):
     points: Iterable object containing all points with their distance from position
             Type: dictionnary with point's position as key and distance as value
     """
-    def __init__(self, x, y, points):
-        super().__init__(x, y)
+    def __init__(self, coordinates, points):
+        super().__init__(coordinates)
         self.points = points
 
     def evaluate_position(self):
-        total_point = Point(0, 0)
-        for point in list(self.points.keys()):
-            total_point = total_point + point
+        total_point = Point(numpy.zeros(len(self.coordinates)))
+        for point in self.points:
+            total_point = total_point + point[0]
         mean_point = total_point
         mean_point = mean_point / len(self.points)
-        self.x = mean_point.x
-        self.y = mean_point.y
+        self.coordinates = mean_point.coordinates
         
 
     def __eq__(self, other):
@@ -50,7 +56,7 @@ class Cluster(Point):
     def __str__(self):
         string = super().__str__()
         for point in self.points:
-            string += '\n' + point.__str__() + ": " + self.points[point].__str__()
+            string += '\n' + point[0].__str__() + ": " + point[1].__str__()
         return string
 
 class Clustering:
@@ -63,20 +69,22 @@ class Clustering:
 
     @staticmethod
     def distance(a, b):
-        ajusted_position = a - b
-        return (ajusted_position.x ** 2) + (ajusted_position.y ** 2)
+        ajusted_coordinates = (a - b) ** 2
+        return numpy.sum(ajusted_coordinates.coordinates)
 
-    def run(self, clusters_position):
-        self._init_clusters(clusters_position)
+    def run(self, clusters_coodinates):
+        total_start_time = time.time()
+                
+        self._init_clusters(clusters_coodinates)
 
         # Emulating a do-while loop
         nb_it = 0
         while True:
             nb_it += 1
-            print("Iteration" + str(nb_it))
+            print("Iteration %s" % nb_it)
             old_clusters = []
             for cluster in self.clusters:
-                old_clusters.append(Cluster(cluster.x, cluster.y, cluster.points))
+                old_clusters.append(Cluster(cluster.coordinates, cluster.points))
 
             self._clear_clusters()
             self._allocate_point_to_cluster()
@@ -85,12 +93,13 @@ class Clustering:
             if old_clusters == self.clusters:
                 break
         
+        Clustering.total_time += time.time() - total_start_time
         return self.clusters
 
-    def _init_clusters(self, clusters_position):
+    def _init_clusters(self, clusters_coodinates):
         self.clusters.clear()
-        for position in clusters_position:
-            self.clusters.append(Cluster(position[0], position[1], {}))
+        for coordiantes in clusters_coodinates:
+            self.clusters.append(Cluster(coordiantes, []))
 
     def _clear_clusters(self):
         for cluster in self.clusters:
@@ -100,10 +109,11 @@ class Clustering:
         for point in self.points:
             distances_from_cluster = {}
             for cluster in self.clusters:
-                distances_from_cluster[Clustering.distance(cluster, point)] = cluster
+                d = Clustering.distance(cluster, point)
+                distances_from_cluster[d] = cluster
 
-            min_distance_from_cluster = min(distances_from_cluster.keys()) 
-            distances_from_cluster[min_distance_from_cluster].points[point] = min_distance_from_cluster
+            min_distance_from_cluster = min(distances_from_cluster.keys())
+            distances_from_cluster[min_distance_from_cluster].points.append((point, min_distance_from_cluster))
 
     def _evaluate_clusters(self):
         for cluster in self.clusters:
