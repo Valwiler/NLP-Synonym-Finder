@@ -6,8 +6,16 @@ class Point:
     def __sub__(self, other):
         return Point(numpy.subtract(self.coordinates, other.coordinates))
 
+    def __isub__(self, other):
+        self.coordinates -= other.coordinates
+        return self
+
     def __add__(self, other):
         return Point(numpy.add(self.coordinates, other.coordinates))
+
+    def __iadd__(self, other):
+        self.coordinates += other.coordinates
+        return self
 
     def __pow__(self, other):
         if isinstance(other, int):
@@ -15,11 +23,27 @@ class Point:
         else:
             return Point(numpy.power(self.coordinates, other.coordinates))
 
+    def __ipow__(self, other):
+        if isinstance(other, int):
+            self.coordinates **= other
+        else:
+            self.coordinates **= other.coordinates
+
+        return self
+
     def __truediv__(self, other):
         if isinstance(other, int):
             return Point(numpy.divide(self.coordinates, other))
         else:
             return Point(numpy.divide(self.coordinates, other.coordinates))
+
+    def __itruediv__(self, other):
+        if isinstance(other, int):
+            self.coordinates /= other
+        else:
+            self.coordinates /= other.coordinates
+
+        return self
 
     def __eq__(self, other):
         return numpy.equal(self.coordinates, other.coordinates).all()
@@ -68,17 +92,16 @@ class Clustering:
 
     @staticmethod
     def distance(a, b):
-        ajusted_coordinates = (a - b) ** 2
+        ajusted_coordinates = Point(numpy.copy(a.coordinates))
+        ajusted_coordinates -= b
+        ajusted_coordinates **= 2
         return numpy.sum(ajusted_coordinates.coordinates)
 
     def run(self, clusters_coodinates):
         self._init_clusters(clusters_coodinates)
 
         # Emulating a do-while loop
-        nb_it = 0
         while True:
-            nb_it += 1
-            print("Iteration %s" % nb_it)
             old_clusters = []
             for cluster in self.clusters:
                 old_clusters.append(Cluster(cluster.coordinates, cluster.points))
@@ -94,8 +117,8 @@ class Clustering:
 
     def _init_clusters(self, clusters_coodinates):
         self.clusters.clear()
-        for coordiantes in clusters_coodinates:
-            self.clusters.append(Cluster(coordiantes, []))
+        for coordinates in clusters_coodinates:
+            self.clusters.append(Cluster(coordinates, []))
 
     def _clear_clusters(self):
         for cluster in self.clusters:
