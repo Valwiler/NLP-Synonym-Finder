@@ -1,8 +1,11 @@
 import numpy as np
+import random
+
+from clustering import Mot, Clustering
 from data_base import Data_Base as db
 
 
-class Synonym_Finder:
+class Finder:
 
     def __init__(self, window_size):
         self.data_base = db.getInstance()
@@ -16,6 +19,7 @@ class Synonym_Finder:
         if self.cooc_dictionarie:
             for ids, coocurences in self.cooc_dictionarie.items():
                 self.co_occurence_matrix[ids[0], ids[1]] = coocurences
+
 
     def find_synonym(self, researched_word, number_of_results, training_type):
         if researched_word in self.word_to_index.keys():
@@ -41,6 +45,30 @@ class Synonym_Finder:
         results = list(zip([self.index_to_word.get(index[0]) for index in top], [scores[1] for scores in top]))
 
         return results
+
+    def generate_random_clusters(self, number_of_cluster, results_per_cluster):
+        mots = [Mot(r, self.co_occurence_matrix[r])for r in range(len(self.co_occurence_matrix))]
+        algorithm = Clustering(mots)
+
+        clusters_coordinates = []
+        for i in range(0, number_of_cluster):
+            coordinates_cluster = [random.randint(0, len(mots)) for c in range(len(mots))]
+            clusters_coordinates.append(np.array(coordinates_cluster))
+
+        clusters = algorithm.run(clusters_coordinates)
+        for cluster in clusters:
+            # Sort points from their distance with the cluster's coordinate
+            sorted(cluster.points, key=lambda x: x[1])
+            # Keep only the n best results (n = results_per_cluster)
+            cluster.points = clusters.points.slice(results_per_cluster)
+            for mot in cluster.points:
+                # Convert the id to the string value of the word
+                mot.identity = self.index_to_word.get(mot.identity)
+
+        return algorithm
+
+
+
 
     @staticmethod
     def prod_scalaire(vect1, vect2):
