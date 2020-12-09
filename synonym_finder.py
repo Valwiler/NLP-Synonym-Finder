@@ -1,7 +1,7 @@
 import numpy as np
+import random
 from data_base import Data_Base as db
-
-
+from clustering import Clustering, Mot
 class Synonym_Finder:
 
     def __init__(self, window_size):
@@ -41,6 +41,31 @@ class Synonym_Finder:
         results = list(zip([self.index_to_word.get(index[0]) for index in top], [scores[1] for scores in top]))
 
         return results
+
+    def generate_clusters(self, clusters_coordinates, results_per_cluster):
+        mots = [Mot(r, self.co_occurence_matrix[r])for r in range(len(self.co_occurence_matrix))]
+        algorithm = Clustering(mots)
+        clusters = algorithm.run(clusters_coordinates)
+        for cluster in clusters:
+            # Sort points from their distance with the cluster's coordinate
+            sorted(cluster.points, key=lambda x: x[1])
+            # Keep only the n best results (n = results_per_cluster)
+            cluster.points = cluster.points.slice(results_per_cluster)
+            for mot in cluster.points:
+                # Convert the id to the string value of the word
+                mot.identity = self.index_to_word.get(mot.identity)
+            
+        return algorithm
+        
+    def generate_random_clusters(self, number_of_cluster, results_per_cluster):
+        clusters_coordinates = []
+        for i in range(0, number_of_cluster):
+            coordinates_cluster = [random.randint(0, len(self.co_occurence_matrix)) for c in range(len(self.co_occurence_matrix))]
+            clusters_coordinates.append(np.array(coordinates_cluster))
+
+        return self.generate_clusters(clusters_coordinates, results_per_cluster)
+            
+        
 
     @staticmethod
     def prod_scalaire(vect1, vect2):

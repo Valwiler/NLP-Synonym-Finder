@@ -1,4 +1,5 @@
 import numpy
+import time
 class Point:
     def __init__(self, coordinates):
         self.coordinates = coordinates
@@ -54,6 +55,12 @@ class Point:
     def __str__(self):
         return str(self.coordinates)
 
+class Mot(Point):
+    def __init__(self, identity, coordinates):
+        super().__init__(coordinates)
+        self.identity = identity
+
+
 class Cluster(Point):
     """
     position: Object contains x and y with position[0] and position[1]
@@ -89,6 +96,8 @@ class Clustering:
     def __init__(self, points):
         self.points = points
         self.clusters = []
+        self.last_runtime = 0
+        self.last_nbIteration = 0
 
     @staticmethod
     def distance(a, b):
@@ -98,10 +107,13 @@ class Clustering:
         return numpy.sum(ajusted_coordinates.coordinates)
 
     def run(self, clusters_coodinates):
+        start_time = time.time()
         self._init_clusters(clusters_coodinates)
 
+        nb_iteration = 0
         # Emulating a do-while loop
         while True:
+            nb_iteration += 1
             old_clusters = []
             for cluster in self.clusters:
                 old_clusters.append(Cluster(cluster.coordinates, cluster.points))
@@ -113,6 +125,8 @@ class Clustering:
             if old_clusters == self.clusters:
                 break
         
+        self.last_nbIteration = nb_iteration
+        self.last_runtime = time.time() - start_time
         return self.clusters
 
     def _init_clusters(self, clusters_coodinates):
