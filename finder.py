@@ -1,8 +1,11 @@
 import numpy as np
 import random
+
+from clustering import Mot, Clustering
 from data_base import Data_Base as db
-from clustering import Clustering, Mot
-class Synonym_Finder:
+
+
+class Finder:
 
     def __init__(self, window_size):
         self.data_base = db.getInstance()
@@ -16,6 +19,7 @@ class Synonym_Finder:
         if self.cooc_dictionarie:
             for ids, coocurences in self.cooc_dictionarie.items():
                 self.co_occurence_matrix[ids[0], ids[1]] = coocurences
+
 
     def find_synonym(self, researched_word, number_of_results, training_type):
         if researched_word in self.word_to_index.keys():

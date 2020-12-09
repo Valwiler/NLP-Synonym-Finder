@@ -1,6 +1,7 @@
 import numpy
 import time
 class Point:
+
     def __init__(self, coordinates):
         self.coordinates = coordinates
 
@@ -65,8 +66,9 @@ class Cluster(Point):
     """
     position: Object contains x and y with position[0] and position[1]
     points: Iterable object containing all points with their distance from position
-            Type: dictionnary with point's position as key and distance as value
+            Type: list of tuple with the following format: (point, distance)
     """
+
     def __init__(self, coordinates, points):
         super().__init__(coordinates)
         self.points = points
@@ -78,7 +80,6 @@ class Cluster(Point):
         mean_point = total_point
         mean_point = mean_point / len(self.points)
         self.coordinates = mean_point.coordinates
-        
 
     def __eq__(self, other):
         return super().__eq__(other) and self.points == other.points
@@ -89,10 +90,12 @@ class Cluster(Point):
             string += '\n' + point[0].__str__() + ": " + point[1].__str__()
         return string
 
+
 class Clustering:
     """
     points: Iterable object containing all the points recommended type Point
     """
+
     def __init__(self, points):
         self.points = points
         self.clusters = []

@@ -1,7 +1,7 @@
 import argv_parser as arg
 from data_base import Data_Base as db
 from trainer import Trainer as tr
-from synonym_finder import Synonym_Finder as sf
+from finder import Finder as sf
 
 
 def main():

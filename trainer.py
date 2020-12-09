@@ -17,19 +17,20 @@ class Trainer:
         self.search_cooccurence()
 
     def index(self):
-        self.index_to_word = dict(enumerate(x for x in Counter(self.full_text).keys()))
+        vocab_start = self.data_base.get_vocabulary()
+        vocab_start.extend(self.full_text)
+        self.index_to_word = dict(enumerate(x for x in Counter(vocab_start).keys()))
         index_iter = self.word_generator()
         self.data_base.add_words(index_iter)
         self.data_base.commit()
-        self.index_to_word = dict(self.data_base.get_vocabulary())
         # initialisation du Dictionnaire à partir de index_to_word permettant la conversion d'un mot en index
         self.word_to_index = {v: k for k, v in self.index_to_word.items()}
         # convertis chacun des mots du text en sa valeur indexée pour accélérer le traitement des données
         self.indexed_text = [*map(self.get_word_index, self.full_text)]
 
     def word_generator(self):
-        for w in self.index_to_word.values():
-            yield (w,)
+        for i, w in self.index_to_word.items():
+            yield (i, w)
 
     def search_cooccurence(self):
         word_count = len(self.indexed_text)

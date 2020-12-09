@@ -3,6 +3,7 @@ import time
 
 from clustering import Clustering, Point
 
+
 def main():
     total_time = 0
     nb_algo = 100
@@ -26,11 +27,6 @@ def main():
     print("--- Totals seconds: %s ---" % (total_time / nb_algo))
 
 
-
-
-    #verify_clusters(clusters)
-    
-
 def verify_clusters(clusters):
     for cluster in clusters:
         print(cluster)
@@ -41,14 +37,16 @@ def verify_clusters(clusters):
             for c in clusters:
                 distances_from_cluster[Clustering.distance(c, point)] = c
 
-            min_distance_from_cluster = min(distances_from_cluster.keys()) 
+            min_distance_from_cluster = min(distances_from_cluster.keys())
             if distances_from_cluster[min_distance_from_cluster] is cluster:
                 string = "Good(" + point.__str__() + "): "
                 for d in distances_from_cluster:
-                    string += "[" + d.__str__() + ": [" + distances_from_cluster[d].x.__str__() + ", " + distances_from_cluster[d].y.__str__() + "] "
+                    string += "[" + d.__str__() + ": [" + distances_from_cluster[d].x.__str__() + ", " + \
+                              distances_from_cluster[d].y.__str__() + "] "
                 print(string)
             else:
                 print("Bad")
+
 
 if __name__ == '__main__':
     main()

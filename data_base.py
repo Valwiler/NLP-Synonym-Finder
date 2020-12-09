@@ -32,7 +32,8 @@ CREATE_COOCURENCE_TABLE = '''CREATE TABLE IF NOT EXISTS {}
 CREATE_STOP_LIST = 'CREATE TABLE IF NOT EXISTS stop_word_table (' \
                    'word TEXT NOT NULL);'
 
-INSERT_NEW_WORD = 'INSERT OR IGNORE INTO vocabulary_table (word) VALUES (?); '
+
+INSERT_NEW_WORD = 'INSERT OR IGNORE INTO vocabulary_table (id, word) VALUES (?, ?); '
 INSERT_FIRST_WORD = 'INSERT INTO vocabulary_table (id ,word) VALUES (0, ?); '
 INSERT_NEW_OCCURENCE = 'INSERT OR IGNORE INTO (?) VALUES ( ?, ? , ? ) IF NOT EXISTS;'
 INSERT_STOP_LIST = 'INSERT INTO stop_word_table (word) VALUES( ? );'
@@ -61,7 +62,8 @@ class Data_Base:
     def get_vocabulary(self):
         with closing(self.connection.cursor()) as c:
             c.execute(GET_VOCABULARY)
-            return c.fetchall()
+            list_word = [x[1] for x in c.fetchall()]
+            return list_word
 
     def get_coocurence_table(self, table_name):
         try:
@@ -96,8 +98,6 @@ class Data_Base:
 
     def add_words(self, worditer):
         with closing(self.connection.cursor()) as c:
-            if self.get_vocabulary_length() == 0:
-                c.execute(INSERT_FIRST_WORD, next(worditer))
             c.executemany(INSERT_NEW_WORD, worditer)
 
     def update_coocurence(self, table_name, coocurence_iter):
