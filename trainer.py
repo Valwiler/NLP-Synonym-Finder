@@ -20,6 +20,7 @@ class Trainer:
         vocab_start = self.data_base.get_vocabulary()
         vocab_start.extend(self.full_text)
         self.index_to_word = dict(enumerate(x for x in Counter(vocab_start).keys()))
+        self.index_to_word = {k:v for (k,v) in enumerate(Counter(vocab_start))}
         index_iter = self.word_generator()
         self.data_base.add_words(index_iter)
         self.data_base.commit()

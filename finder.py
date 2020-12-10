@@ -10,16 +10,16 @@ class Finder:
     def __init__(self, window_size):
         self.data_base = db.getInstance()
         self.length = self.data_base.get_vocabulary_length()
-        self.index_to_word = dict(self.data_base.get_vocabulary())
+        vocabulary = self.data_base.get_vocabulary()
+        self.index_to_word = dict(enumerate(x for x in vocabulary))
         self.word_to_index = {v: k for k, v in self.index_to_word.items()}
         self.stop_list = self.data_base.get_stop_list()
         self.co_occurence_matrix = np.zeros((self.length, self.length), dtype=int)
-        table_name = 'cooc_size' + str(int(window_size/2))
+        table_name = 'cooc_size' + str(int(window_size / 2))
         self.cooc_dictionarie = self.data_base.get_coocurence_table(table_name)
         if self.cooc_dictionarie:
             for ids, coocurences in self.cooc_dictionarie.items():
                 self.co_occurence_matrix[ids[0], ids[1]] = coocurences
-
 
     def find_synonym(self, researched_word, number_of_results, training_type):
         if researched_word in self.word_to_index.keys():
@@ -47,37 +47,42 @@ class Finder:
         return results
 
     def generate_random_clusters(self, number_of_cluster, results_per_cluster):
-        mots = [Mot(r, self.co_occurence_matrix[r])for r in range(len(self.co_occurence_matrix))]
+        mots = [Mot(r, self.co_occurence_matrix[r]) for r in range(len(self.co_occurence_matrix))]
         algorithm = Clustering(mots)
-
         clusters_coordinates = []
+        orignal_indexes = list()
+        orignal_words = list()
         for i in range(0, number_of_cluster):
-            coordinates_cluster = [random.randint(0, len(mots)) for c in range(len(mots))]
-            clusters_coordinates.append(np.array(coordinates_cluster))
+            coordinates_cluster = random.randint(0, len(mots))
+            clusters_coordinates.append(self.co_occurence_matrix[coordinates_cluster])
+            orignal_indexes.append(coordinates_cluster)
+        for indexe in orignal_indexes:
+            orignal_words.append(self.index_to_word.get(indexe))
 
         clusters = algorithm.run(clusters_coordinates)
         for cluster in clusters:
             # Sort points from their distance with the cluster's coordinate
-            sorted(cluster.points, key=lambda x: x[1])
-            # Keep only the n best results (n = results_per_cluster)
-            cluster.points = clusters.points.slice(results_per_cluster)
+            cluster.points.sort(key=lambda x: x[1])
+            cluster.points = cluster.points[:results_per_cluster]
             for mot in cluster.points:
-                # Convert the id to the string value of the word
-                mot.identity = self.index_to_word.get(mot.identity)
-
-        return algorithm
-
+                 # Convert the id to the string value of the word
+                mot[0].identity = self.index_to_word.get(mot[0].identity)
+        # Keep only the n best results (n = results_per_cluster)
 
 
+        return algorithm, orignal_words
 
-    @staticmethod
-    def prod_scalaire(vect1, vect2):
-        return np.dot(vect1, vect2)
 
-    @staticmethod
-    def least_square(vect1, vect2):
-        return np.sum((vect1 - vect2) ** 2)
+@staticmethod
+def prod_scalaire(vect1, vect2):
+    return np.dot(vect1, vect2)
 
-    @staticmethod
-    def city_block(vect1, vect2):
-        return np.sum(np.absolute(vect1 - vect2))
+
+@staticmethod
+def least_square(vect1, vect2):
+    return np.sum((vect1 - vect2) ** 2)
+
+
+@staticmethod
+def city_block(vect1, vect2):
+    return np.sum(np.absolute(vect1 - vect2))
