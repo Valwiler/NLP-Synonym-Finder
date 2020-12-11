@@ -1,7 +1,7 @@
 import numpy as np
 import random
 
-from clustering import Mot, Clustering
+from clustering_v2 import Mot, Clustering
 from data_base import Data_Base as db
 
 
@@ -47,28 +47,23 @@ class Finder:
         return results
 
     def generate_random_clusters(self, number_of_cluster, results_per_cluster):
-        mots = [Mot(r, self.co_occurence_matrix[r]) for r in range(len(self.co_occurence_matrix))]
-        algorithm = Clustering(mots)
+        # mots = [Mot(r, self.co_occurence_matrix[r]) for r in range(len(self.co_occurence_matrix))]
+        # algorithm = Clustering(mots)
+        algorithm = Clustering()
         clusters_coordinates = []
-        orignal_indexes = list()
         orignal_words = list()
         for i in range(0, number_of_cluster):
-            coordinates_cluster = random.randint(0, len(mots))
+            coordinates_cluster = random.randint(0, len(self.co_occurence_matrix))
             clusters_coordinates.append(self.co_occurence_matrix[coordinates_cluster])
-            orignal_indexes.append(coordinates_cluster)
-        for indexe in orignal_indexes:
-            orignal_words.append(self.index_to_word.get(indexe))
 
-        clusters = algorithm.run(clusters_coordinates)
+        clusters = algorithm.run(self.co_occurence_matrix, clusters_coordinates)
         for cluster in clusters:
             # Sort points from their distance with the cluster's coordinate
             cluster.points.sort(key=lambda x: x[1])
             cluster.points = cluster.points[:results_per_cluster]
             for mot in cluster.points:
-                 # Convert the id to the string value of the word
+                # Convert the id to the string value of the word
                 mot[0].identity = self.index_to_word.get(mot[0].identity)
-        # Keep only the n best results (n = results_per_cluster)
-
 
         return algorithm, orignal_words
 
