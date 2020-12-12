@@ -12,9 +12,14 @@ class Trainer:
         self.data_base = db.getInstance()
 
     def process_text(self, encoding, paths):
-        self.full_text = r.Reader.read_text(encoding, paths)
+        processed_paths = self.data_base.get_text_table(self.window_size)
+        paths = [path for path in paths if path not in processed_paths]
+        print("text to process " + str(len(paths)))
+        if paths:
+            self.full_text = r.Reader.read_text(encoding, paths)
         self.index()
         self.search_cooccurence()
+        self.data_base.update_text_table(self.window_size,paths)
 
     def index(self):
         vocab_start = self.data_base.get_vocabulary()

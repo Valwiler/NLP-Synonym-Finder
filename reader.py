@@ -22,6 +22,7 @@ class Reader:
 
     @staticmethod
     def read_text(encoding, paths):
+        print(paths)
         full_text = Reader.read(encoding, paths)
         full_text = lower(re.findall('(\w+|[!?])', full_text))
         return full_text

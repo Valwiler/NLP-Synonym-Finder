@@ -29,6 +29,13 @@ CREATE_COOCURENCE_TABLE = '''CREATE TABLE IF NOT EXISTS {}
                           FOREIGN KEY (id_adjacent_word) REFERENCES vocabulary_table(id)
                           );'''
 
+CREATE_TEXT_TABLE = "CREATE TABLE IF NOT EXISTS {} " \
+                    "(text TEXT NOT NULL)"
+
+UPDATE_TEXT_TABLE = "INSERT INTO {} (text) VALUES (?)"
+
+GET_TEXT_LIST = "SELECT text FROM {};"
+
 CREATE_STOP_LIST = 'CREATE TABLE IF NOT EXISTS stop_word_table (' \
                    'word TEXT NOT NULL);'
 
@@ -108,6 +115,26 @@ class Data_Base:
     def commit(self):
         self.connection.commit()
         print('commit')
+
+    def update_text_table(self, window, paths):
+        update_querry = UPDATE_TEXT_TABLE.format("processed" + str(window))
+        with closing(self.connection.cursor()) as c:
+            for path in paths:
+                c.execute(update_querry, (path,))
+            self.commit()
+
+    def get_text_table(self, window):
+        creation_querry = CREATE_TEXT_TABLE.format("processed" + str(window))
+        select_querry = GET_TEXT_LIST.format("processed" + str(window))
+        with closing(self.connection.cursor()) as c:
+            c.execute(creation_querry)
+            c.execute(select_querry)
+            result = c.fetchall()
+            result = [row[0] for row in result]
+            return result
+
+
+
 
     def create_coocurence_table(self, table_name):
         with closing(self.connection.cursor()) as c:
