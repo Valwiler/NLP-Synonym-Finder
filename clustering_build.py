@@ -92,6 +92,12 @@ class Cluster(Point):
 
 
 class Clustering:
+    time_distance_deepcopy = 0
+    time_distance_substract = 0
+    time_distance_power = 0
+    time_distance_sum = 0
+    time_evaluating = 0
+    runtime = 0
     """
     points: Iterable object containing all the points recommended type Point
     """
@@ -99,31 +105,40 @@ class Clustering:
     def __init__(self):
         self.points = []
         self.clusters = []
-        self.runtime = 0
-        self.nbIteration = 0
+        self.last_runtime = 0
+        self.last_nbIteration = 0
         self.__points_with_their_cluster = []
         self.__modification_perIt_counter = 0
         self.iterations_stats = []
 
     @staticmethod
     def distance(a, b):
-        ajusted_coordinates = Point(numpy.copy(a.coordinates))
-        ajusted_coordinates -= b
+        d_start_time = time.time()
+        Clustering.time_distance_deepcopy += time.time() - d_start_time
+
+        d_start_time = time.time()
+        ajusted_coordinates = numpy.subtract(a.coordinates, b.coordinates, dtype=float)
+        Clustering.time_distance_substract += time.time() - d_start_time
+
+        d_start_time = time.time()
         ajusted_coordinates **= 2
-        return numpy.sum(ajusted_coordinates.coordinates)
+        Clustering.time_distance_power += time.time() - d_start_time
+        
+        d_start_time = time.time()
+        ajusted_coordinates = numpy.sum(ajusted_coordinates)
+        Clustering.time_distance_sum += time.time() - d_start_time
+
+        return ajusted_coordinates
 
     def run(self, points, clusters_coodinates):
         start_time = time.time()
         self._init_run(points, clusters_coodinates)
 
-        self.nbIteration = 0
+        nb_iteration = 0
         # Emulating a do-while loop
         while True:
-            self.nbIteration += 1
+            nb_iteration += 1
             self.__modification_perIt_counter = 0
-            old_clusters = []
-            for cluster in self.clusters:
-                old_clusters.append(Cluster(cluster.coordinates, cluster.points))
 
             iteration_speed = time.time()
             self._clear_clusters()
@@ -133,15 +148,18 @@ class Clustering:
             iteration_speed = time.time() - iteration_speed
             self.iterations_stats.append((iteration_speed, self.__modification_perIt_counter, [len(cluster.points) for cluster in self.clusters]))
 
-            if old_clusters == self.clusters:
+
+            if self.__modification_perIt_counter == 0:
                 break
         
-        self.runtime = time.time() - start_time
+        self.last_nbIteration = nb_iteration
+        self.last_runtime = time.time() - start_time
+        Clustering.runtime += self.last_runtime
         return self.clusters
 
     def _init_run(self, points, clusters_coodinates):
         self.points = points
-        
+
         self.clusters.clear()
         for coordinates in clusters_coodinates:
             self.clusters.append(Cluster(coordinates, []))
@@ -160,11 +178,13 @@ class Clustering:
 
             min_index = numpy.argmin(distances_from_cluster)
             self.clusters[min_index].points.append((point, distances_from_cluster[min_index]))
-            if self.__points_with_their_cluster[idx] is not min_index:
+            if self.__points_with_their_cluster[idx] != min_index:
                 self.__modification_perIt_counter += 1
                 self.__points_with_their_cluster[idx] = min_index
-                
 
     def _evaluate_clusters(self):
+        start_time = time.time()
         for cluster in self.clusters:
             cluster.evaluate_position()
+        Clustering.time_evaluating += time.time() - start_time
+        
