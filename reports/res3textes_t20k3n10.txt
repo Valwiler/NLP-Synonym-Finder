@@ -1,0 +1,144 @@
+Itération 0
+25404 changements en 6.483677387237549secondes
+
+Il y a 219 points (mots) regroupés autour du centroïde no 0
+Il y a 1878 points (mots) regroupés autour du centroïde no 1
+Il y a 23307 points (mots) regroupés autour du centroïde no 2
+
+----------------------------------------------------------
+Itération 1
+25404 changements en 6.510452032089233secondes
+
+Il y a 77 points (mots) regroupés autour du centroïde no 0
+Il y a 1388 points (mots) regroupés autour du centroïde no 1
+Il y a 23939 points (mots) regroupés autour du centroïde no 2
+
+----------------------------------------------------------
+Itération 2
+25404 changements en 6.439485549926758secondes
+
+Il y a 49 points (mots) regroupés autour du centroïde no 0
+Il y a 814 points (mots) regroupés autour du centroïde no 1
+Il y a 24541 points (mots) regroupés autour du centroïde no 2
+
+----------------------------------------------------------
+Itération 3
+25404 changements en 6.461479425430298secondes
+
+Il y a 37 points (mots) regroupés autour du centroïde no 0
+Il y a 493 points (mots) regroupés autour du centroïde no 1
+Il y a 24874 points (mots) regroupés autour du centroïde no 2
+
+----------------------------------------------------------
+Itération 4
+25404 changements en 6.450677156448364secondes
+
+Il y a 32 points (mots) regroupés autour du centroïde no 0
+Il y a 293 points (mots) regroupés autour du centroïde no 1
+Il y a 25079 points (mots) regroupés autour du centroïde no 2
+
+----------------------------------------------------------
+Itération 5
+25404 changements en 6.420390367507935secondes
+
+Il y a 25 points (mots) regroupés autour du centroïde no 0
+Il y a 201 points (mots) regroupés autour du centroïde no 1
+Il y a 25178 points (mots) regroupés autour du centroïde no 2
+
+----------------------------------------------------------
+Itération 6
+25404 changements en 6.5069520473480225secondes
+
+Il y a 22 points (mots) regroupés autour du centroïde no 0
+Il y a 123 points (mots) regroupés autour du centroïde no 1
+Il y a 25259 points (mots) regroupés autour du centroïde no 2
+
+----------------------------------------------------------
+Itération 7
+25404 changements en 6.47288179397583secondes
+
+Il y a 17 points (mots) regroupés autour du centroïde no 0
+Il y a 77 points (mots) regroupés autour du centroïde no 1
+Il y a 25310 points (mots) regroupés autour du centroïde no 2
+
+----------------------------------------------------------
+Itération 8
+25404 changements en 6.440003156661987secondes
+
+Il y a 14 points (mots) regroupés autour du centroïde no 0
+Il y a 54 points (mots) regroupés autour du centroïde no 1
+Il y a 25336 points (mots) regroupés autour du centroïde no 2
+
+----------------------------------------------------------
+Itération 9
+25404 changements en 6.454961061477661secondes
+
+Il y a 10 points (mots) regroupés autour du centroïde no 0
+Il y a 49 points (mots) regroupés autour du centroïde no 1
+Il y a 25345 points (mots) regroupés autour du centroïde no 2
+
+----------------------------------------------------------
+Itération 10
+25404 changements en 6.449047327041626secondes
+
+Il y a 10 points (mots) regroupés autour du centroïde no 0
+Il y a 43 points (mots) regroupés autour du centroïde no 1
+Il y a 25351 points (mots) regroupés autour du centroïde no 2
+
+----------------------------------------------------------
+Itération 11
+25404 changements en 6.46679949760437secondes
+
+Il y a 10 points (mots) regroupés autour du centroïde no 0
+Il y a 41 points (mots) regroupés autour du centroïde no 1
+Il y a 25353 points (mots) regroupés autour du centroïde no 2
+
+----------------------------------------------------------
+Itération 12
+25404 changements en 6.442476034164429secondes
+
+Il y a 10 points (mots) regroupés autour du centroïde no 0
+Il y a 41 points (mots) regroupés autour du centroïde no 1
+Il y a 25353 points (mots) regroupés autour du centroïde no 2
+
+----------------------------------------------------------
+Cluster 0
+le ----> 2846740.6999999997
+et ----> 5403151.100000001
+à ----> 7904553.500000003
+il ----> 13119593.500000004
+les ----> 24686181.099999998
+l ----> 28857738.09999999
+d ----> 31348981.700000007
+un ----> 42102615.50000001
+la ----> 50586812.50000001
+de ----> 299271745.29999995
+
+----------------------------------------------------------
+Cluster 1
+pour ----> 1125166.6502082096
+lui ----> 1183838.113622844
+du ----> 1772608.3087447945
+son ----> 1917081.7233789412
+au ----> 1919319.5770374779
+ce ----> 2075808.7965496727
+on ----> 2661414.601427722
+avait ----> 2832705.6745984536
+sur ----> 2877197.381915527
+mais ----> 2953894.6502082096
+
+----------------------------------------------------------
+Cluster 2
+pesanteur ----> 147.99642437805133
+répandre ----> 152.2067347949645
+conquête ----> 152.31425658725732
+brique ----> 152.82433429009325
+trempe ----> 153.69697263664006
+recevant ----> 155.39625871718275
+convaincre ----> 155.58960861660296
+préparatifs ----> 155.75818827187055
+ébranlait ----> 155.786192847266
+abominations ----> 156.26171842609295
+
+----------------------------------------------------------
+Clustering en 13 itérations. Temps écoulé:84.00228881835938 secondes.

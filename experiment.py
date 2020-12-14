@@ -4,7 +4,7 @@ from finder import Finder as f
 
 
 class Experiment:
-    def __init__(self, window_size, cluster_number, paths, encoding, result_per_cluster):
+    def __init__(self, window_size, cluster_number,encoding, result_per_cluster, paths=["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"]):
         self.train_window(window_size,paths, encoding)
         test = self.run_clustering(window_size, cluster_number, result_per_cluster)
         self.write_report(test,window_size,cluster_number, result_per_cluster)
@@ -43,33 +43,27 @@ class Experiment:
                               " itérations. Temps écoulé:" + str(clustering.runtime) + " secondes.")
 
 if __name__ == '__main__':
-    Experiment(15, 5,
-               ["textes/GerminalUTF8.txt","textes/LesTroisMousquetairesUTF8.txt","textes/LeVentreDeParisUTF8.txt"]
-               ,"UTF-8", 10)
-    Experiment(15, 10,
+    Experiment(20, 2,
                ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
                "UTF-8", 10)
-    Experiment(15, 15,
+    Experiment(20, 3,
                ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
                "UTF-8", 10)
-    Experiment(15, 20,
+    Experiment(20, 4,
                ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
                "UTF-8", 10)
-    Experiment(15, 25,
+    Experiment(20, 5,
                ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
                "UTF-8", 10)
-    Experiment(15, 30,
+    Experiment(20, 6,
                ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
                "UTF-8", 10)
-    Experiment(15, 35,
+    Experiment(20, 7,
                ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
                "UTF-8", 10)
-    Experiment(15, 40,
+    Experiment(20, 8,
                ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
                "UTF-8", 10)
-    Experiment(15, 45,
-               ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
-               "UTF-8", 10)
-    Experiment(15, 50,
+    Experiment(20, 9,
                ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
                "UTF-8", 10)

@@ -1,7 +1,7 @@
 import argv_parser as arg
-from data_base import Data_Base as db
 from trainer import Trainer as tr
 from finder import Finder as sf
+from experiment import Experiment as exp
 
 
 def main():
@@ -9,7 +9,6 @@ def main():
     paths = arguments.getInstance().filesPath()
     window = arguments.getInstance().windowSize()
     encoding = arguments.getInstance().encoding()
-    data_base = db.getInstance()
 
     if arguments.getInstance().isTrainingMode():
         trainer = tr(window)
@@ -35,7 +34,11 @@ def main():
             except ValueError as e:
                 print('\n' + str(e))
                 continue
-    data_base.connection.close()
+    elif arguments.getInstance().isClusteringMode():
+        print("Starting experiment with provided parameter")
+        exp(window,arguments.getInstance().clusterNumber(), encoding, arguments.getInstance().resultNumber())
+
+
 
 
 if __name__ == '__main__':

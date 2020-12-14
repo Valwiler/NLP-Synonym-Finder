@@ -1,0 +1,483 @@
+Itération 0
+25404 changements en 11.855598449707031secondes
+
+Il y a 11561 points (mots) regroupés autour du centroïde no 0
+Il y a 656 points (mots) regroupés autour du centroïde no 1
+Il y a 1449 points (mots) regroupés autour du centroïde no 2
+Il y a 3899 points (mots) regroupés autour du centroïde no 3
+Il y a 5047 points (mots) regroupés autour du centroïde no 4
+Il y a 2792 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 1
+25404 changements en 12.526739120483398secondes
+
+Il y a 12806 points (mots) regroupés autour du centroïde no 0
+Il y a 3158 points (mots) regroupés autour du centroïde no 1
+Il y a 3717 points (mots) regroupés autour du centroïde no 2
+Il y a 982 points (mots) regroupés autour du centroïde no 3
+Il y a 1008 points (mots) regroupés autour du centroïde no 4
+Il y a 3733 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 2
+25404 changements en 11.86465835571289secondes
+
+Il y a 13231 points (mots) regroupés autour du centroïde no 0
+Il y a 4026 points (mots) regroupés autour du centroïde no 1
+Il y a 3183 points (mots) regroupés autour du centroïde no 2
+Il y a 350 points (mots) regroupés autour du centroïde no 3
+Il y a 270 points (mots) regroupés autour du centroïde no 4
+Il y a 4344 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 3
+25404 changements en 12.87163758277893secondes
+
+Il y a 13475 points (mots) regroupés autour du centroïde no 0
+Il y a 4830 points (mots) regroupés autour du centroïde no 1
+Il y a 1899 points (mots) regroupés autour du centroïde no 2
+Il y a 143 points (mots) regroupés autour du centroïde no 3
+Il y a 86 points (mots) regroupés autour du centroïde no 4
+Il y a 4971 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 4
+25404 changements en 12.632361650466919secondes
+
+Il y a 13625 points (mots) regroupés autour du centroïde no 0
+Il y a 4400 points (mots) regroupés autour du centroïde no 1
+Il y a 983 points (mots) regroupés autour du centroïde no 2
+Il y a 71 points (mots) regroupés autour du centroïde no 3
+Il y a 50 points (mots) regroupés autour du centroïde no 4
+Il y a 6275 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 5
+25404 changements en 11.89883279800415secondes
+
+Il y a 14448 points (mots) regroupés autour du centroïde no 0
+Il y a 3414 points (mots) regroupés autour du centroïde no 1
+Il y a 528 points (mots) regroupés autour du centroïde no 2
+Il y a 41 points (mots) regroupés autour du centroïde no 3
+Il y a 37 points (mots) regroupés autour du centroïde no 4
+Il y a 6936 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 6
+25404 changements en 12.275426864624023secondes
+
+Il y a 15806 points (mots) regroupés autour du centroïde no 0
+Il y a 2384 points (mots) regroupés autour du centroïde no 1
+Il y a 287 points (mots) regroupés autour du centroïde no 2
+Il y a 27 points (mots) regroupés autour du centroïde no 3
+Il y a 32 points (mots) regroupés autour du centroïde no 4
+Il y a 6868 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 7
+25404 changements en 12.689708709716797secondes
+
+Il y a 17441 points (mots) regroupés autour du centroïde no 0
+Il y a 1602 points (mots) regroupés autour du centroïde no 1
+Il y a 181 points (mots) regroupés autour du centroïde no 2
+Il y a 24 points (mots) regroupés autour du centroïde no 3
+Il y a 25 points (mots) regroupés autour du centroïde no 4
+Il y a 6131 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 8
+25404 changements en 12.76500153541565secondes
+
+Il y a 19038 points (mots) regroupés autour du centroïde no 0
+Il y a 1098 points (mots) regroupés autour du centroïde no 1
+Il y a 107 points (mots) regroupés autour du centroïde no 2
+Il y a 20 points (mots) regroupés autour du centroïde no 3
+Il y a 21 points (mots) regroupés autour du centroïde no 4
+Il y a 5120 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 9
+25404 changements en 13.797926425933838secondes
+
+Il y a 20416 points (mots) regroupés autour du centroïde no 0
+Il y a 727 points (mots) regroupés autour du centroïde no 1
+Il y a 66 points (mots) regroupés autour du centroïde no 2
+Il y a 18 points (mots) regroupés autour du centroïde no 3
+Il y a 16 points (mots) regroupés autour du centroïde no 4
+Il y a 4161 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 10
+25404 changements en 12.705243825912476secondes
+
+Il y a 21573 points (mots) regroupés autour du centroïde no 0
+Il y a 499 points (mots) regroupés autour du centroïde no 1
+Il y a 46 points (mots) regroupés autour du centroïde no 2
+Il y a 15 points (mots) regroupés autour du centroïde no 3
+Il y a 14 points (mots) regroupés autour du centroïde no 4
+Il y a 3257 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 11
+25404 changements en 12.21125602722168secondes
+
+Il y a 22553 points (mots) regroupés autour du centroïde no 0
+Il y a 338 points (mots) regroupés autour du centroïde no 1
+Il y a 43 points (mots) regroupés autour du centroïde no 2
+Il y a 13 points (mots) regroupés autour du centroïde no 3
+Il y a 10 points (mots) regroupés autour du centroïde no 4
+Il y a 2447 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 12
+25404 changements en 12.840516090393066secondes
+
+Il y a 23239 points (mots) regroupés autour du centroïde no 0
+Il y a 237 points (mots) regroupés autour du centroïde no 1
+Il y a 40 points (mots) regroupés autour du centroïde no 2
+Il y a 12 points (mots) regroupés autour du centroïde no 3
+Il y a 10 points (mots) regroupés autour du centroïde no 4
+Il y a 1866 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 13
+25404 changements en 13.36737608909607secondes
+
+Il y a 23771 points (mots) regroupés autour du centroïde no 0
+Il y a 187 points (mots) regroupés autour du centroïde no 1
+Il y a 37 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 10 points (mots) regroupés autour du centroïde no 4
+Il y a 1388 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 14
+25404 changements en 12.852800369262695secondes
+
+Il y a 24107 points (mots) regroupés autour du centroïde no 0
+Il y a 150 points (mots) regroupés autour du centroïde no 1
+Il y a 35 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 10 points (mots) regroupés autour du centroïde no 4
+Il y a 1091 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 15
+25404 changements en 12.982700109481812secondes
+
+Il y a 24343 points (mots) regroupés autour du centroïde no 0
+Il y a 120 points (mots) regroupés autour du centroïde no 1
+Il y a 35 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 9 points (mots) regroupés autour du centroïde no 4
+Il y a 886 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 16
+25404 changements en 13.574896097183228secondes
+
+Il y a 24530 points (mots) regroupés autour du centroïde no 0
+Il y a 99 points (mots) regroupés autour du centroïde no 1
+Il y a 33 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 9 points (mots) regroupés autour du centroïde no 4
+Il y a 722 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 17
+25404 changements en 13.956588745117188secondes
+
+Il y a 24666 points (mots) regroupés autour du centroïde no 0
+Il y a 82 points (mots) regroupés autour du centroïde no 1
+Il y a 32 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 9 points (mots) regroupés autour du centroïde no 4
+Il y a 604 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 18
+25404 changements en 13.109915018081665secondes
+
+Il y a 24766 points (mots) regroupés autour du centroïde no 0
+Il y a 67 points (mots) regroupés autour du centroïde no 1
+Il y a 30 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 9 points (mots) regroupés autour du centroïde no 4
+Il y a 521 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 19
+25404 changements en 12.691364049911499secondes
+
+Il y a 24836 points (mots) regroupés autour du centroïde no 0
+Il y a 51 points (mots) regroupés autour du centroïde no 1
+Il y a 29 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 9 points (mots) regroupés autour du centroïde no 4
+Il y a 468 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 20
+25404 changements en 13.69889211654663secondes
+
+Il y a 24903 points (mots) regroupés autour du centroïde no 0
+Il y a 44 points (mots) regroupés autour du centroïde no 1
+Il y a 27 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 9 points (mots) regroupés autour du centroïde no 4
+Il y a 410 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 21
+25404 changements en 12.85210394859314secondes
+
+Il y a 24952 points (mots) regroupés autour du centroïde no 0
+Il y a 40 points (mots) regroupés autour du centroïde no 1
+Il y a 25 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 9 points (mots) regroupés autour du centroïde no 4
+Il y a 367 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 22
+25404 changements en 12.785723209381104secondes
+
+Il y a 25002 points (mots) regroupés autour du centroïde no 0
+Il y a 35 points (mots) regroupés autour du centroïde no 1
+Il y a 24 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 9 points (mots) regroupés autour du centroïde no 4
+Il y a 323 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 23
+25404 changements en 13.190334558486938secondes
+
+Il y a 25047 points (mots) regroupés autour du centroïde no 0
+Il y a 30 points (mots) regroupés autour du centroïde no 1
+Il y a 24 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 9 points (mots) regroupés autour du centroïde no 4
+Il y a 283 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 24
+25404 changements en 12.496825695037842secondes
+
+Il y a 25076 points (mots) regroupés autour du centroïde no 0
+Il y a 28 points (mots) regroupés autour du centroïde no 1
+Il y a 23 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 9 points (mots) regroupés autour du centroïde no 4
+Il y a 257 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 25
+25404 changements en 12.726961851119995secondes
+
+Il y a 25102 points (mots) regroupés autour du centroïde no 0
+Il y a 27 points (mots) regroupés autour du centroïde no 1
+Il y a 24 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 8 points (mots) regroupés autour du centroïde no 4
+Il y a 232 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 26
+25404 changements en 13.8984854221344secondes
+
+Il y a 25117 points (mots) regroupés autour du centroïde no 0
+Il y a 29 points (mots) regroupés autour du centroïde no 1
+Il y a 23 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 7 points (mots) regroupés autour du centroïde no 4
+Il y a 217 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 27
+25404 changements en 12.101245880126953secondes
+
+Il y a 25122 points (mots) regroupés autour du centroïde no 0
+Il y a 33 points (mots) regroupés autour du centroïde no 1
+Il y a 19 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 7 points (mots) regroupés autour du centroïde no 4
+Il y a 212 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 28
+25404 changements en 11.8722665309906secondes
+
+Il y a 25124 points (mots) regroupés autour du centroïde no 0
+Il y a 32 points (mots) regroupés autour du centroïde no 1
+Il y a 18 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 7 points (mots) regroupés autour du centroïde no 4
+Il y a 212 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 29
+25404 changements en 12.375920295715332secondes
+
+Il y a 25127 points (mots) regroupés autour du centroïde no 0
+Il y a 34 points (mots) regroupés autour du centroïde no 1
+Il y a 16 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 7 points (mots) regroupés autour du centroïde no 4
+Il y a 209 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 30
+25404 changements en 12.709798097610474secondes
+
+Il y a 25130 points (mots) regroupés autour du centroïde no 0
+Il y a 34 points (mots) regroupés autour du centroïde no 1
+Il y a 15 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 7 points (mots) regroupés autour du centroïde no 4
+Il y a 207 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 31
+25404 changements en 12.245721817016602secondes
+
+Il y a 25134 points (mots) regroupés autour du centroïde no 0
+Il y a 32 points (mots) regroupés autour du centroïde no 1
+Il y a 15 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 7 points (mots) regroupés autour du centroïde no 4
+Il y a 205 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 32
+25404 changements en 13.105323076248169secondes
+
+Il y a 25140 points (mots) regroupés autour du centroïde no 0
+Il y a 31 points (mots) regroupés autour du centroïde no 1
+Il y a 15 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 7 points (mots) regroupés autour du centroïde no 4
+Il y a 200 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 33
+25404 changements en 12.020826816558838secondes
+
+Il y a 25149 points (mots) regroupés autour du centroïde no 0
+Il y a 30 points (mots) regroupés autour du centroïde no 1
+Il y a 15 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 7 points (mots) regroupés autour du centroïde no 4
+Il y a 192 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 34
+25404 changements en 12.237675666809082secondes
+
+Il y a 25154 points (mots) regroupés autour du centroïde no 0
+Il y a 30 points (mots) regroupés autour du centroïde no 1
+Il y a 15 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 7 points (mots) regroupés autour du centroïde no 4
+Il y a 187 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 35
+25404 changements en 12.089443445205688secondes
+
+Il y a 25156 points (mots) regroupés autour du centroïde no 0
+Il y a 30 points (mots) regroupés autour du centroïde no 1
+Il y a 15 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 7 points (mots) regroupés autour du centroïde no 4
+Il y a 185 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Itération 36
+25404 changements en 12.015942335128784secondes
+
+Il y a 25156 points (mots) regroupés autour du centroïde no 0
+Il y a 30 points (mots) regroupés autour du centroïde no 1
+Il y a 15 points (mots) regroupés autour du centroïde no 2
+Il y a 11 points (mots) regroupés autour du centroïde no 3
+Il y a 7 points (mots) regroupés autour du centroïde no 4
+Il y a 185 points (mots) regroupés autour du centroïde no 5
+
+----------------------------------------------------------
+Cluster 0
+accusant ----> 81.97850507759235
+abominations ----> 86.21463164779426
+confitures ----> 86.31870224725365
+agrément ----> 87.61421822753668
+établissait ----> 88.23729025806618
+douvres ----> 88.29254546557134
+infiltration ----> 88.38946071441856
+enflés ----> 88.75271401383021
+bourraient ----> 88.80160890968011
+demanderait ----> 88.85893121847322
+
+----------------------------------------------------------
+Cluster 1
+pour ----> 468457.5766666667
+mais ----> 534655.2433333333
+plus ----> 1066904.1099999999
+avec ----> 1281302.4433333331
+comme ----> 1510378.71
+on ----> 1576713.1766666663
+sa ----> 1647498.3099999996
+tout ----> 1880017.4433333331
+sur ----> 2045237.3766666667
+par ----> 2109829.4433333334
+
+----------------------------------------------------------
+Cluster 2
+en ----> 1294257.4133333336
+une ----> 2406165.146666667
+qui ----> 3521957.4133333326
+s ----> 5110357.013333333
+se ----> 5647184.08
+qu ----> 7007876.613333332
+dans ----> 7060831.013333334
+était ----> 7432852.4799999995
+elle ----> 7529753.146666665
+que ----> 8348219.946666666
+
+----------------------------------------------------------
+Cluster 3
+and ----> 15702.190082644627
+to ----> 16330.553719008265
+this ----> 19601.826446280993
+project ----> 24534.826446280997
+gutenberg ----> 24907.28099173554
+you ----> 25368.9173553719
+of ----> 27233.64462809917
+in ----> 31654.19008264463
+tm ----> 40025.644628099166
+or ----> 81693.826446281
+
+----------------------------------------------------------
+Cluster 4
+le ----> 7803006.612244895
+et ----> 14523396.89795918
+il ----> 22909805.183673467
+à ----> 23830088.326530613
+la ----> 25620041.469387755
+les ----> 44694036.61224489
+de ----> 224613572.6122449
+
+----------------------------------------------------------
+Cluster 5
+aussi ----> 23705.04672023375
+toujours ----> 28883.219693206724
+ou ----> 40151.83590942293
+après ----> 49501.77104455808
+voir ----> 50116.74401753105
+florent ----> 52876.0088823959
+étienne ----> 53225.273747260784
+temps ----> 53922.56023374726
+car ----> 54080.06293644997
+alors ----> 54157.31699050402
+
+----------------------------------------------------------
+Clustering en 37 itérations. Temps écoulé:469.9020040035248 secondes.
