@@ -43,27 +43,5 @@ class Experiment:
                               " itérations. Temps écoulé:" + str(clustering.runtime) + " secondes.")
 
 if __name__ == '__main__':
-    Experiment(20, 2,
-               ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
-               "UTF-8", 10)
-    Experiment(20, 3,
-               ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
-               "UTF-8", 10)
-    Experiment(20, 4,
-               ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
-               "UTF-8", 10)
-    Experiment(20, 5,
-               ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
-               "UTF-8", 10)
-    Experiment(20, 6,
-               ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
-               "UTF-8", 10)
-    Experiment(20, 7,
-               ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
-               "UTF-8", 10)
-    Experiment(20, 8,
-               ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
-               "UTF-8", 10)
-    Experiment(20, 9,
-               ["textes/GerminalUTF8.txt", "textes/LesTroisMousquetairesUTF8.txt", "textes/LeVentreDeParisUTF8.txt"],
+    Experiment(5, 4,
                "UTF-8", 10)
